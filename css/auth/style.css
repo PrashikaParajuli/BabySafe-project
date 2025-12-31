@@ -1,0 +1,108 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family:'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+/* adding bg-img in body and making it cover so won't repeate and body purai ma hunxa */
+body{
+    font-size: 14px;
+    background: #f2f2f2;
+    background-image: url("/babysafe/assets/babysitter-cover.jpg");
+    background-size: cover;
+    /* opacity: 0.0; */
+}
+:root{
+    --primary-color: #003C43;
+    --secondary-color: #0d5a5f;
+
+    
+}
+/* Css for login and register page */
+.wrapper{
+    background:white;
+    width:500px;
+    padding: 30px;
+    margin: 50px ;
+    border-top: 5px solid var(--primary-color);
+    border-left: 5px solid var(--primary-color);
+    box-shadow: 0 0 5px;
+}
+/* maintaining margin with every input area email and email input to confirm-password */
+.input-area{
+    width: 90%;
+    position: relative;
+    margin: 15px auto;
+}
+
+/* submit btn is to maintain margin-bottom with anchor tag and and their css */
+.submit-btn{
+    margin-bottom: 15px;
+    width: 90%;
+    height: 40px;
+    background-color:var(--primary-color);
+    color:white;
+    border: 2px solid transparent;
+}
+/* making parent and sitter btn in same line */
+.role-toggle{
+    width: 90%;
+    display: flex;
+    margin: 0;
+}
+/* applying css in btn of sitter and parent */
+.role-btn{
+    width: 50%;
+    margin-top: 15px;
+    display: inline;
+    height: 40px;
+    background-color:var(--primary-color);
+    color:white;
+    border-color: white;
+    border: 2px solid transparent;  
+}
+.required{
+    color: red;
+}
+/* input field ko height set ghareko */
+input{
+    width:90%;
+    height: 35px;
+} 
+/* input ko height change garda yesko ni hunxa so yeslai change na huna dina auto garya */
+.checkbox{
+    height: auto;
+    width: auto;
+}
+/* yo forget password lai login btn ko right bata just mathi garna ko lagi lekheko */
+.frg-pass{
+    width: 90%;
+    text-align: right;
+}
+/* paragraph tag vitra anchor tag xa so center ma launa ghareko  */
+p {
+    width: 90%;
+    text-align: center;
+}
+/* pagragraph tag lai center garda yo ni hunxa so yo left ma chaiya karand text-align left ghareko */
+.subtitle{
+    text-align:left;
+}
+/* removing anchor tag underline and changing color */
+a{
+    text-decoration: none;
+    color: var(--primary-color);
+}
+/* changing icon color */
+i{
+    color: var(--primary-color);
+} 
+/* hover for button login btn , login and parent and sitter btn */
+.border:hover{
+background-color: var(--secondary-color);
+}
+/* hover for anchor tag */
+ a:hover{
+    color: var(--secondary-color);
+    text-decoration: underline;
+}

@@ -1,95 +1,47 @@
 *{
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
 }
 :root{
-    --primary-color: #003C43;
-    --secondary-color: #0d5a5f;
-
-    
+    --primary-color:#003C43;
 }
-/* Css for login and register page */
-/* for login and register css resusable code */
-.wrapper{
-    background:white;
-    width:500px;
-    padding: 30px;
-    margin: 50px ;
-    border-top: 5px solid var(--primary-color);
-    border-left: 5px solid var(--primary-color);
-    box-shadow: 0 0 5px;
-}
-/* maintaining margin with every input area email and email input to confirm-password */
-.input-area{
-    width: 90%;
-    position: relative;
-    margin: 15px auto;
-}
-
-/* submit btn is to maintain margin-bottom with anchor tag and and their css */
-.submit-btn{
-    margin-bottom: 15px;
-    width: 90%;
-    height: 40px;
+nav{
     background-color:var(--primary-color);
-    color:white;
-    border: 2px solid transparent;
-}
-/* input field ko height set ghareko */
-input{
-    width:90%;
-    height: 35px;
-} 
-/* input ko height change garda yesko ni hunxa so yeslai change na huna dina auto garya */
-.checkbox{
-    height: auto;
-    width: auto;
-}
-/* paragraph tag vitra anchor tag xa so center ma launa ghareko  */
-p {
-    width: 90%;
-    text-align: center;
-}
-/* pagragraph tag lai center garda yo ni hunxa so yo left ma chaiya karand text-align left ghareko */
-.subtitle{
-    text-align:left;
-}
-/* removing anchor tag underline and changing color */
-a{
-    text-decoration: none;
-    color: var(--primary-color);
-}
-/* changing anchor color */
-i{
-    color: var(--primary-color);
-} 
-/* hover for button login btn , login and parent and sitter btn */
-.border:hover{
-background-color: var(--secondary-color);
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
-}
-/* hover for anchor tag */
- a:hover{
-    color: var(--secondary-color);
-    text-decoration: underline;
-}
-
-/* Css for index page */
-
-.navbar{
-    height: 70px;
-    background-color:#003C43;
-    color: white;
-}
-.nav-logo{
-    height: 55px;
-    width: 100;
 }
 .logo{
-    background-image: url("../../uploads/babysafe.png");
-    background-size: cover;
-    height: 55px;
-    width: 55px;
+    height: 50px;
+    display: flex;
+}
+
+.logo img{
+    height: 50px;
+    width: auto;
+}
+nav ul{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+nav ul li{
+    list-style-type: none;
+}
+nav ul li a{
+    text-decoration: none;
+    color: white;
+    padding: 5px 8px;
+    font: 16px;
+}
+
+.border{
+    border: 2px solid transparent;
+}
+.border:hover{
+    border: 2px solid white;
 }

@@ -1,42 +1,36 @@
 <?php
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page | BabySafe</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <title>Home | BabySafe</title>
+    <link rel="stylesheet" href="/Babysafe/css/front_end/style.css">
 </head>
 <body>
-    <header>
-
-        <div class="navbar">
-            <div class="nav-logo">
-                <div class="logo"></div>
-            </div>
-
-            <!-- <div class="navbar1">
-                <ul>
-                    <li> <a href="index.php">Home</a></li>
-                    <li> <a href="#">Find A Sitter</a></li>
-                    <li> <a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-
-            <div class="navbar2">
-                <a href="login.php"><button>Sign In</button></a>
-                <a href="register.php"><button>Sign up</button></a>
-            </div> -->
-
+    <nav>
+        <div class="logo border">
+            <img src="assets/logo.png" alt="BabySafe">
         </div>
-    </header>
-</nav>
+        <div class="nav-links">
+            <ul>
+                <li class="border"><a href="index.php">Home</a></li>
+                <li class="border"><a href="find_sitter.php">Find A Sitter</a></li>
+                <li class="border"><a href="contact.php">Contact Us</a></li>
+                <li class="border"><a href="about.php">About Us</a></li>
+            </ul>
+        </div>
+        <div class="nav-btns">
+            <ul>
+                <li>
+                    <button>Register</button>
+                </li>
+                <li>
+                    <button>Login</button>
+                </li>
+            </ul>
+         </div>
+    </nav>
 </body>
 </html>
-        
-        
-           
