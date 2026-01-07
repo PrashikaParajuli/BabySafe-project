@@ -61,7 +61,7 @@ body{
     border-color: white;
     border: 2px solid transparent;  
 }
-.required{
+.required, .errors{
     color: red;
 }
 /* input field ko height set ghareko */
