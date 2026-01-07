@@ -14,12 +14,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $role = $_POST['role'] ?? '';
 
     // checking who is trying register (parent or sitter)
-    if(empty($role)){
-        $errors['role'] = "Please Select Parent or Sitter.";    
-    }
-    elseif ($role === 'parent') {
+    if($role === 'parent') {
         $table ='parents';
-    } elseif ($role === 'sitter') {
+    } else{
         $table ='sitters';
     }
     
@@ -69,7 +66,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 $result = mysqli_query($conn, $sql);
                 
                 if($result){
-                    echo "Account created successfully";
+                    //echo "Account created successfully";
                 }else{
                     echo "Insert failed: " . mysqli_error($conn);
                 }
@@ -95,18 +92,18 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         <p class="errors"><br><?php echo  $errors['role']; ?></p>
         <?php endif; ?>
         <div class="role-toggle">
-            <button type="button" class="role-btn border" onclick="set_role('parent');">I'm a Parent</button>
-            <button type="button" class="role-btn border"  onclick="set_role('sitter');">I'm a Sitter</button>
+            <button type="button" class="role-btn border active" onclick="set_role('parent',this);">I'm a Parent</button>
+            <button type="button" class="role-btn border"  onclick="set_role('sitter',this);">I'm a Sitter</button>
         </div>
         
         <form class="register_form" action="" method="post">
             <div class="input-area">
-                <input type="hidden" name="role" id="role">
+                <input type="hidden" name="role" id="role" value="parent">
 
                 <label for="email"><i class="fa-solid fa-envelope"></i>Email 
                 <span class="required">*</span>
                 </label><br>
-                <input type="text" name="email" id="email" required  ><br>
+                <input type="text" name="email" id="email" value="<?= htmlspecialchars($email ?? '') ?>" required  ><br>
                 <?php if (isset($errors['email'])): ?>
                 <p class="errors"><?php echo $errors['email'] ; ?></p>
                 <?php endif; ?>
@@ -116,7 +113,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 <label for="phone"><i class="fa-solid fa-phone"></i>Phone 
                 <span class="required">*</span>
                 </label><br>
-                <input type="text" name="phone" id="phone" maxlength="10" required ><br>
+                <input type="text" name="phone" id="phone" maxlength="10" value="<?= htmlspecialchars($phone ?? '') ?>" required ><br>
                 <?php if (isset($errors['phone'])): ?>
                 <p class="errors"><?php echo $errors['phone']; ?></p>
                 <?php endif; ?>

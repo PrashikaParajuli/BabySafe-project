@@ -97,6 +97,10 @@ a{
 i{
     color: var(--primary-color);
 } 
+.role-btn.active{
+    background-color: var(--secondary-color);
+    
+}
 /* hover for button login btn , login and parent and sitter btn */
 .border:hover{
 background-color: var(--secondary-color);

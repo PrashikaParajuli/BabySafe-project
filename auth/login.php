@@ -1,13 +1,14 @@
 <?php
 session_start();
 if(isset($_SESSION['id'])){
-     if($_SESSION['role']=='parents'){
-            header("Location: /Babysafe/parents/");
-        }elseif($_SESSION['role']=='sitters'){
-            header("Location: /Babysafe/sitters/");
-        }
+    if($_SESSION['role']=='parent'){
+            header("Location: /Babysafe/parent/");
+    }else{
+        header("Location: /Babysafe/sitter/");
+    }
 
 }
+$errors = [];
 require_once '../config/connection.php';
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -15,44 +16,37 @@ require_once '../config/connection.php';
         $role = $_POST['role'] ?? '';
         
 
-        if(empty($role)){
-        $errors['role'] = "Please Select Parent or Sitter.";    
-        }
-        elseif ($role === 'parent') {
+        if ($role === 'parent') {
             $table ='parents';
-        } elseif ($role === 'sitter') {
+        } else {
             $table ='sitters';
         }
-
-        if(!empty(($role))){
-
-            
-            $sql ="SELECT * FROM $table WHERE email = '$email' LIMIT 1";
-            $result = mysqli_query($conn, $sql);
-            $count = mysqli_num_rows($result);
+        
+        $sql ="SELECT * FROM $table WHERE email = '$email' LIMIT 1";
+        $result = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($result);
             
            
-            if(mysqli_num_rows($result)){
-                $user = mysqli_fetch_assoc($result);
-                if(password_verify($password,$user['password'])){
-                    $_SESSION['id'] = $user['id'];
-                    $_SESSION['email'] = $user['email'];
-                    $_SESSION['password'] = $user['password'];
+        if(mysqli_num_rows($result)){
+            $user = mysqli_fetch_assoc($result);
+            if(password_verify($password,$user['password'])){
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['password'] = $user['password'];
 
-                    if($role=='parents'){
-                        header("Location: /Babysafe/parents/");
-                    }else{
-                        header("Location: /Babysafe/sitters/");
-                    }
+                if($role=='parent'){
+                    header("Location: /Babysafe/parent/dashboard.php");
                 }else{
-                    $errors["login"] = "Invalid Credentials";
-                } 
-
-                        
+                    header("Location: /Babysafe/sitter/dashboard.php");
+                }
             }else{
-                $errors['login'] = "Account not found";
-            }
-    }
+                $errors["login"] = "Invalid Credentials";
+            } 
+        }else{
+            $errors['login'] = "Account not Register";
+        }
+
+                    
 }
 
 ?>
@@ -70,24 +64,27 @@ require_once '../config/connection.php';
         <h2>Welcome Back !</h2>
         <p class="subtitle">Sign into your BabySafe</p>
         <br>
-         <div class="role-toggle">
-            <button type="button" class="role-btn border">I'm a Parent</button>
-            <button type="button" class="role-btn border">I'm a Sitter</button>
+        <div class="role-toggle">
+            <button type="button" class="role-btn border active" onclick="set_role('parent',this);">I'm a Parent</button>
+            <button type="button" class="role-btn border"  onclick="set_role('sitter',this);">I'm a Sitter</button>
         </div>
+       
         <div>
             <form class="login_form" action="" method="post">
                 <div class="input-area">
-                    <input type="hidden" name="role" id="role">
-
+                    <input type="hidden" name="role" id="role" value="parent">
                     <label for="email"><i class="fa-solid fa-envelope"></i>Email <span class="required">*</span>
                     </label><br>
-                    <input type="text" name="email" id="email"><br>
+                    <input type="text" name="email" id="email" value="<?= htmlspecialchars($email ?? '') ?>"><br>
                 </div>
 
                 <div class="input-area">  
                     <label for="password"><i class="fa-solid fa-lock"></i>Password <span class="required">*</span>
                     </label><br>
                     <input type="password" name="password" id="password"><br>
+                    <?php if (isset($errors['login'])): ?>
+                    <p class="errors"><?php echo $errors['login']; ?></p>
+                    <?php endif; ?>
                 </div>
 
                 <div class="frg-pass">
