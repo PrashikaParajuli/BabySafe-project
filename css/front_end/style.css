@@ -4,7 +4,7 @@
     font-family: 'Times New Roman', Times, serif;
 }
 :root{
-    --primary-color:#003C43;
+    --primary-color:#1f3f4b;
 }
 nav{
     background-color:var(--primary-color);

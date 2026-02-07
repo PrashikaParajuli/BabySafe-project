@@ -1,10 +1,12 @@
 <?php
 session_start();
-if(isset($_SESSION['id'])){
+if(isset($_SESSION['id']) && isset($_SESSION['role'])){
     if($_SESSION['role']=='parent'){
-            header("Location: /Babysafe/parent/");
+            header("Location: /Babysafe/parent/dashboard.php");
+            exit;
     }else{
-        header("Location: /Babysafe/sitter/");
+        header("Location: /Babysafe/sitter/dashboard.php");
+        exit;
     }
 
 }
@@ -32,12 +34,14 @@ require_once '../config/connection.php';
             if(password_verify($password,$user['password'])){
                 $_SESSION['id'] = $user['id'];
                 $_SESSION['email'] = $user['email'];
-                $_SESSION['password'] = $user['password'];
+                $_SESSION['role'] = $role;
 
                 if($role=='parent'){
                     header("Location: /Babysafe/parent/dashboard.php");
+                    exit;
                 }else{
                     header("Location: /Babysafe/sitter/dashboard.php");
+                    exit;
                 }
             }else{
                 $errors["login"] = "Invalid Credentials";
