@@ -19,7 +19,7 @@ if(!isset($_SESSION['id']) || $_SESSION['role'] !== 'parent'){
 
     <p>Click below to start verification:</p>
 
-    <a href="../auth/is_auth/personal.php">
+    <a href="../auth/is_auth/parents/personal.php">
         <button>Start Verification</button>
     </a>
         

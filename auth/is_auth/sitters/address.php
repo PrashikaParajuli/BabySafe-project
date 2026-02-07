@@ -6,18 +6,19 @@ if(!isset($_SESSION['id'])){
 
 }
 $errors = [];
-require_once '../../config/connection.php';
+require_once '../../../config/connection.php';
 if($_SERVER['REQUEST_METHOD']=='POST'){
-    $p_province =  mysqli_real_escape_string($conn, $_POST['p_province']);
-    $p_district =  mysqli_real_escape_string($conn, $_POST['p_district']);
-    $p_city =  mysqli_real_escape_string($conn, $_POST['p_city']);
-    $p_ward =  mysqli_real_escape_string($conn, $_POST['p_ward']);
-    $p_tole =  mysqli_real_escape_string($conn, $_POST['p_tole']);
-    $t_province =  mysqli_real_escape_string($conn, $_POST['t_province']);
-    $t_district =  mysqli_real_escape_string($conn, $_POST['t_district']);
-    $t_city =  mysqli_real_escape_string($conn, $_POST['t_city']);
-    $t_ward =  mysqli_real_escape_string($conn, $_POST['t_ward']);
-    $t_tole =  mysqli_real_escape_string($conn, $_POST['t_tole']);
+    $p_province =  mysqli_real_escape_string($conn, $_POST['p_province' ?? '']);
+    $p_district =  mysqli_real_escape_string($conn, $_POST['p_district' ?? '']);
+    $p_city =  mysqli_real_escape_string($conn, $_POST['p_city' ?? '']);
+    $p_ward =  mysqli_real_escape_string($conn, $_POST['p_ward' ?? '']);
+    $p_tole =  mysqli_real_escape_string($conn, $_POST['p_tole' ?? '']);
+    $t_province =  mysqli_real_escape_string($conn, $_POST['t_province' ?? '']);
+    $t_district =  mysqli_real_escape_string($conn, $_POST['t_district' ?? '']);
+    $t_city =  mysqli_real_escape_string($conn, $_POST['t_city' ?? '']);
+    $t_ward =  mysqli_real_escape_string($conn, $_POST['t_ward' ?? '']);
+    $t_tole =  mysqli_real_escape_string($conn, $_POST['t_tole' ?? '']);
+
 
     if (empty($p_province)) {
     $errors['p_province'] = "Province is required";
@@ -60,13 +61,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     }
 
     if(empty($errors)){
-        $user_id = $_SESSION['id'];
-        $sql = "INSERT INTO address(
-        user_id,
+        $id = $_SESSION['id'];
+        $sql = "INSERT INTO sitters(
         p_province, p_district, p_city, p_ward, p_tole,
         t_province, t_district, t_city, t_ward, t_tole
     ) VALUES (
-        '$user_id',
         '$p_province', '$p_district', '$p_city', '$p_ward', '$p_tole',
         '$t_province', '$t_district', '$t_city', '$t_ward', '$t_tole'
     )";
@@ -88,6 +87,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Address | BabySafe</title>
+    <link rel="stylesheet" href="/babysafe/css/admin/form.css">
 </head>
 <body>
     <h2>Address Information</h2>
