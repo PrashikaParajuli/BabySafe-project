@@ -13,6 +13,7 @@ if(!isset($_SESSION['id']) || $_SESSION['role'] !== 'parent'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parent Dashboard</title>
+    <link rel="stylesheet" href="/babysafe/css/admin/dashboard.css">
 </head>
 <body>
     <h2>Welcome to Parent Dashboard</h2>

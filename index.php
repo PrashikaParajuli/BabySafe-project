@@ -27,7 +27,7 @@
                     <a href="/Babysafe/auth/register.php"><button>Register</button></a>
                 </li>
                 <li>
-                    <a href="/Babysafe/auth/register.php"><button>Login</button></a>
+                    <a href="/Babysafe/auth/login.php"><button>Login</button></a>
                 </li>
             </ul>
          </div>
