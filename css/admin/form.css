@@ -11,7 +11,7 @@ body{
 
 /* Form container */
 form {
-    width: 400px;
+    width: 700px;
     margin: 50px auto;
     background-color: #fff;
     padding: 25px 30px;
@@ -42,16 +42,14 @@ label {
 /* Inputs and selects */
 input[type="text"],
 input[type="number"],
-input[type="date"],
-select {
+input[type="date"]
+ {
     width: 100%;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
-
-
 
 /* Buttons */
 button {
@@ -64,6 +62,9 @@ button {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+}
+a{
+    text-decoration: none;
 }
 
 button:hover {

@@ -38,6 +38,9 @@ nav ul li a{
     padding: 5px 8px;
     font: 16px;
 }
+.nav-btns ul li a{
+   text-decoration: none; 
+}
 
 .border{
     border: 2px solid transparent;

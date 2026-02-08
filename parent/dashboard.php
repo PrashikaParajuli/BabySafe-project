@@ -22,6 +22,10 @@ if(!isset($_SESSION['id']) || $_SESSION['role'] !== 'parent'){
     <a href="../auth/is_auth/parents/personal.php">
         <button>Start Verification</button>
     </a>
+
+    <a href="../auth/logout.php"><button>Logout</button></a>
+
+
         
 </body>
 </html>

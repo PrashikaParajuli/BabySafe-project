@@ -95,7 +95,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         <h3>Permanant Address</h3>
 
         <div class="input-field">
-            <label for="p_province">Province*</label><br>
+            <label for="p_province">Province
+                <span class="required">*</span>
+            </label><br>
             <input type="text" id="p_province" name="p_province" value="<?= htmlspecialchars($p_province ?? '') ?>">
             <?php if (isset($errors['p_province'])): ?>
             <p class="errors"><?php echo $errors['p_province'] ; ?></p>
@@ -103,7 +105,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         </div>
 
         <div class="input-field">
-            <label for="p_district">District*</label><br>
+            <label for="p_district">District</label><br>
             <input type="text" id="p_district" name="p_district" value="<?= htmlspecialchars($p_district ?? '') ?>">
             <?php if (isset($errors['p_district'])): ?>
             <p class="errors"><?php echo $errors['p_district'] ; ?></p>
@@ -119,7 +121,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         </div>
 
         <div class="input-field">
-            <label for="p_ward">Ward No.*</label><br>
+            <label for="p_ward">Ward No.
+                <span class="required">*</span>
+            </label><br>
             <input type="number" id="p_ward" name="p_ward" value="<?= htmlspecialchars($p_ward ?? '') ?>">
             <?php if (isset($errors['p_ward'])): ?>
             <p class="errors"><?php echo $errors['p_ward'] ; ?></p>
@@ -127,7 +131,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         </div>
 
         <div class="input-field">
-            <label for="p_tole">Tole*</label><br>
+            <label for="p_tole">Tole
+                <span class="required">*</span>
+            </label><br>
             <input type="text" id="p_tole" name="p_tole" value="<?= htmlspecialchars($p_tole ?? '') ?>">
             <?php if (isset($errors['p_tole'])): ?>
             <p class="errors"><?php echo $errors['p_tole'] ; ?></p>
@@ -136,7 +142,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
         <h3>Temporary Address</h3>
         <div class="input-field">
-            <label for="t_province">Province*</label><br>
+            <label for="t_province">Province
+                <span class="required">*</span>
+            </label><br>
             <input type="text" id="t_province" name="t_province" value="<?= htmlspecialchars($t_province ?? '') ?>">
             <?php if (isset($errors['t_province'])): ?>
             <p class="errors"><?php echo $errors['t_province'] ; ?></p>
@@ -152,7 +160,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         </div>
 
         <div class="input-field">
-            <label for="t_city">City*</label><br>
+            <label for="t_city">City
+                <span class="required">*</span>
+            </label><br>
             <input type="text"  id="t_city" name="t_city" value="<?= htmlspecialchars($t_city ?? '') ?>">
             <?php if (isset($errors['t_city'])): ?>
             <p class="errors"><?php echo $errors['t_city'] ; ?></p>
@@ -160,7 +170,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         </div>
 
         <div class="input-field">
-            <label for="t_ward">Ward No.*</label><br>
+            <label for="t_ward">Ward No.
+                <span class="required">*</span>
+            </label><br>
             <input type="number" id="t_ward"  name="t_ward" value="<?= htmlspecialchars($t_ward ?? '') ?>">
             <?php if (isset($errors['t_ward'])): ?>
             <p class="errors"><?php echo $errors['t_ward'] ; ?></p>
@@ -168,7 +180,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         </div>
 
         <div class="input-field">
-            <label for="t_tole">Tole*</label><br>
+            <label for="t_tole">Tole
+                <span class="required">*</span>
+            </label><br>
             <input type="text" id="t_tole" name="t_tole" value="<?= htmlspecialchars($t_tole ?? '') ?>">
             <?php if (isset($errors['t_tole'])): ?>
             <p class="errors"><?php echo $errors['t_tole'] ; ?></p>
