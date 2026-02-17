@@ -7,13 +7,13 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/Babysafe/css/front_end/style.css">
+    <!-- <link rel="stylesheet" href="/Babysafe/css/admin/find_sitter.css"> -->
 </head>
 <body>
     <nav>
         <div class="logo border">
-            <label>BabySafe</label>
-            
+            <label>BabySafe</label>  
             <!-- <img src="assets/logo.png" alt="BabySafe"> -->
         </div>
         <div class="nav-links">
@@ -27,7 +27,7 @@ session_start();
         <div class="nav-btns">
             <ul>
                 <li>
-                    <a href="/Babysafe/auth/register.php"><button class="nav_register">Register</button></a>
+                    <a href="/Babysafe/auth/register.php"><button class="nav-register">Register</button></a>
                 </li>
                 <li>
                     <a href="/Babysafe/auth/login.php"><button class="nav-login">Login</button></a>

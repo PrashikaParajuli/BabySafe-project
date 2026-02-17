@@ -1,15 +1,7 @@
 <?php
 require('includes/header.php');
 ?>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home | BabySafe</title>
-        <link rel="stylesheet" href="/Babysafe/css/front_end/style.css">
-    </head>
-    <body>
+
         <div class="search">
             <input type="text" name="search" placeholder="search">
         </div>

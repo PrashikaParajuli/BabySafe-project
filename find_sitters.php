@@ -1,20 +1,10 @@
 <?php
 require_once 'config/connection.php';
+require('includes/header.php');
 
 $sql = "SELECT * FROM sitters";
 $result = mysqli_query($conn, $sql);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find A Sitters</title>
-    <link rel="stylesheet" href="/Babysafe/css/front_end/style.css">
-    <link rel="stylesheet" href="css/sitter.css">
-</head>
-<body>
 
 <div class="slider">
 
@@ -23,7 +13,7 @@ $result = mysqli_query($conn, $sql);
     <?php while($row = mysqli_fetch_assoc($result)) { ?>
         
         <div class="card">
-            <img src="/Babysafe/uploads/<?php echo $row['image']; ?>" alt="<?php echo $row['name'];?>">
+            <img src="<?php echo $row['image']; ?>" alt="<?php echo $row['name'];?>">
 
             <div class="card-content">
 
@@ -53,6 +43,10 @@ $result = mysqli_query($conn, $sql);
     <button class="arrow">&#10095;</button>
 
 </div>
+
+<?php
+    require('includes/footer.php');
+?>
 
 </body>
 </html>
