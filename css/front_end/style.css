@@ -5,19 +5,28 @@
 }
 :root{
     --primary-color:#1f3f4b;
+    --secondary-color:#22505f;
 }
 nav{
     background-color:var(--primary-color);
-    height: 60px;
+    height: 70px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+
+}
+nav .logo{
+    color: white;
 
 }
 .logo{
     height: 50px;
     display: flex;
+    
+
 }
 
 .logo img{
@@ -42,9 +51,213 @@ nav ul li a{
    text-decoration: none; 
 }
 
-.border{
-    border: 2px solid transparent;
-}
 .border:hover{
-    border: 2px solid white;
+    background-color: black;
+}
+
+.nav-btns ul {
+    list-style: none;
+    display: flex;
+}
+
+.nav-btns ul li {
+    margin-left: 10px;
+}
+
+.nav-btns button {
+    width: 90px;
+    height: 35px;
+    padding: 6px 14px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+/* Register button (white) */
+.nav-btns li:first-child button {
+    background-color: white;
+    color: black;
+}
+
+.nav-btns li:first-child button:hover {
+    background-color: #f2f2f2;
+}
+
+/* Login button (back) */
+.nav-btns li:last-child button {
+    background-color: black;
+    color: white;
+    border-color: black;
+}
+
+.nav-btns li:last-child button:hover {
+    background-color: #333;
+}
+
+.search{
+    height: 50px;
+}
+
+/* css for footer */
+
+.footer{
+    background:var(--primary-color);
+    color: white;
+    margin-top: 40px;
+}
+
+.footer-container{
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 40px 60px;
+    flex-wrap: wrap;
+}
+
+.footer-section{
+    flex: 1;
+    min-width: 220px;
+}
+
+.footer-section h2,
+.footer-section h3{
+    margin-bottom: 12px;
+}
+
+.footer-section p{
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.footer-section ul{
+    list-style: none;
+}
+
+.footer-section ul li{
+    margin-bottom: 8px;
+}
+
+.footer-section ul li a{
+    color: white;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover{
+    text-decoration: underline;
+}
+
+.footer-bottom{
+    text-align: center;
+    padding: 15px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    font-size: 14px;
+}
+
+
+/* css for hero section */
+
+.hero{
+    height: 800px;
+    background-image: url("/babysafe/assets/hero.jpg");
+    background-size: cover;
+}
+.hero-content .hero-btn{
+    display: flex;
+    align-content: center;
+}
+
+
+
+
+
+/* ===== SLIDER CONTAINER ===== */
+.slider-wrapper{
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 40px;
+}
+
+.slider{
+    display: flex;
+    gap: 20px;
+    transition: transform 0.4s ease;
+}
+
+/* ===== FIXED CARD ===== */
+.card{
+    width: 320px;
+    height: 460px;           /* FIXED HEIGHT */
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    flex-shrink: 0;          /* IMPORTANT */
+    display: flex;
+    flex-direction: column;
+}
+
+/* FIXED IMAGE SPACE */
+.card img{
+    width: 100%;
+    height: 220px;           /* FIXED IMAGE HEIGHT */
+    object-fit: cover;
+}
+
+/* CONTENT AREA */
+.card-content{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.name{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.age{
+    color: #555;
+    margin-bottom: 8px;
+}
+
+/* LIMIT BIO HEIGHT */
+.bio{
+    font-size: 14px;
+    color: #333;
+    height: 60px;            /* FIXED TEXT SPACE */
+    overflow: hidden;
+}
+
+/* SEE MORE */
+.qualification{
+    margin-top: auto;
+    color: #1f3f4b;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ===== ARROWS ===== */
+.arrow{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background: #060724;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.arrow.left{
+    left: 10px;
+}
+
+.arrow.right{
+    right: 10px;
 }

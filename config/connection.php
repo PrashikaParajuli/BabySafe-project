@@ -216,9 +216,10 @@ $sql ="CREATE TABLE IF NOT EXISTS reviews(
 } else {
     echo "Error creating table: " . mysqli_error($conn);
 }
+   
 
 //creating table for skills
-$sql ="CREATE TABLE IF NOT EXISTS reviews(
+$sql ="CREATE TABLE IF NOT EXISTS skills(
     id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
     name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -233,5 +234,6 @@ $sql ="CREATE TABLE IF NOT EXISTS reviews(
 } else {
     echo "Error creating table: " . mysqli_error($conn);
 }
-
 */
+
+
