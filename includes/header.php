@@ -7,8 +7,10 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Babysafe/css/front_end/style.css">
-    <!-- <link rel="stylesheet" href="/Babysafe/css/admin/find_sitter.css"> -->
+    <link rel="stylesheet" href="/Babysafe/front_end/style.css">
+    <link rel="stylesheet" href="/Babysafe/admin/find_sitter.css">
+    <link rel="stylesheet" href="/Babysafe/admin/contact.css">
+    <link rel="stylesheet" href="/Babysafe/admin/about.css">
 </head>
 <body>
     <nav>

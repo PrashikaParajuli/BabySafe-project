@@ -85,72 +85,78 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div class="wrapper signin-wrapper">
-        <h2>Create Your account</h2>
-        <p class="subtitle">Join BabySafe Today!!</p>
-        <?php if (isset($errors['role'])): ?>
-        <p class="errors"><br><?php echo  $errors['role']; ?></p>
-        <?php endif; ?>
-        <div class="role-toggle">
-            <button type="button" class="role-btn border active" onclick="set_role('parent',this);">I'm a Parent</button>
-            <button type="button" class="role-btn border"  onclick="set_role('sitter',this);">I'm a Sitter</button>
-        </div>
-        
-        <form class="register_form" action="" method="post">
-            <div class="input-area">
-                <input type="hidden" name="role" id="role" value="parent">
-
-                <label for="email"><i class="fa-solid fa-envelope"></i>Email 
-                <span class="required">*</span>
-                </label><br>
-                <input type="text" name="email" id="email" value="<?= htmlspecialchars($email ?? '') ?>" required  ><br>
-                <?php if (isset($errors['email'])): ?>
-                <p class="errors"><?php echo $errors['email'] ; ?></p>
+    <div class="container">
+        <div class="wrapper signin-wrapper">
+            <h2>Create Your account</h2>
+            <p class="subtitle">Join BabySafe Today!!</p>
+            <?php if (isset($errors['role'])): ?>
+                <p class="errors"><br><?php echo  $errors['role']; ?></p>
                 <?php endif; ?>
+                <div class="role-toggle">
+                    <button type="button" class="role-btn border active" onclick="set_role('parent',this);">I'm a Parent</button>
+                    <button type="button" class="role-btn border"  onclick="set_role('sitter',this);">I'm a Sitter</button>
+                </div>
+                    
+                <form class="register_form" action="" method="post">
+                    <div class="input-area">
+                        <input type="hidden" name="role" id="role" value="parent">
+                        
+                        <label for="email"><i class="fa-solid fa-envelope"></i>Email 
+                        <span class="required">*</span>
+                    </label><br>
+                    <input type="text" name="email" id="email" value="<?= htmlspecialchars($email ?? '') ?>" required  ><br>
+                    <?php if (isset($errors['email'])): ?>
+                        <p class="errors"><?php echo $errors['email'] ; ?></p>
+                        <?php endif; ?>
+                    </div>
+                        
+                    <div class="input-area">
+                        <label for="phone"><i class="fa-solid fa-phone"></i>Phone 
+                        <span class="required">*</span>
+                    </label><br>
+                    <input type="text" name="phone" id="phone" maxlength="10" value="<?= htmlspecialchars($phone ?? '') ?>" required ><br>
+                    <?php if (isset($errors['phone'])): ?>
+                        <p class="errors"><?php echo $errors['phone']; ?></p>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="input-area">
+                        <label for="password"><i class="fa-solid fa-lock"></i>Password 
+                        <span class="required">*</span>
+                    </label><br>
+                    <input type="password" name="password" id="password" required  ><br>
+                    <?php if (isset($errors['password'])): ?>
+                        <p class="errors"><?php echo $errors['password']; ?></p>
+                        <?php endif; ?>
             </div>
-        
-            <div class="input-area">
-                <label for="phone"><i class="fa-solid fa-phone"></i>Phone 
-                <span class="required">*</span>
-                </label><br>
-                <input type="text" name="phone" id="phone" maxlength="10" value="<?= htmlspecialchars($phone ?? '') ?>" required ><br>
-                <?php if (isset($errors['phone'])): ?>
-                <p class="errors"><?php echo $errors['phone']; ?></p>
-                <?php endif; ?>
-            </div>
-        
-            <div class="input-area">
-                <label for="password"><i class="fa-solid fa-lock"></i>Password 
-                    <span class="required">*</span>
-                </label><br>
-                <input type="password" name="password" id="password" required  ><br>
-                <?php if (isset($errors['password'])): ?>
-                <p class="errors"><?php echo $errors['password']; ?></p>
-                <?php endif; ?>
-            </div>
-
+            
             <div class="input-area">
                 <label for="confirm_password"><i class="fa-solid fa-lock"></i>Confirm Password
                 <span class="required">*</span>
             </label><br>
             <input type="password" name="confirm_password" id="confirm_password" required  ><br>
             <?php if (isset($errors['confirm_password'])): ?>
-            <p class="errors"><?php echo $errors['confirm_password']; ?></p>
-             <?php endif; ?>
+                <p class="errors"><?php echo $errors['confirm_password']; ?></p>
+                <?php endif; ?>
             </div>    
-
+            
             <div class="input-area">
                 <label>
                     <input class="checkbox"  type="checkbox" required>
                     <span>I agree to the terms of Service and Privacy Policy.</span>
                 </label><br>
             </div>   
-
+            
             <div class="input-area">
                 <button class="submit-btn border" type="submit">Create Account</button>
                 <p> <small>Already have an account? <a href="login.php">Sign in</a></small></p>
             </div>
         </form>
+        </div>
+        
+        <div class="image">
+            <img src="/babysafe/assets/babysafe-cover.webp" alt="">
+        </div>
     </div>
 </body>
 <script>

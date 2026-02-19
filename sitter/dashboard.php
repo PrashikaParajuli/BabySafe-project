@@ -1,28 +1,132 @@
 <?php
+require '../config/connection.php';
 session_start();
-if(!isset($_SESSION['id']) || $_SESSION['role'] !=='sitter'){
+
+if(!isset($_SESSION['id']) || $_SESSION['role'] !== 'sitter'){
     header("Location: /Babysafe/auth/login.php");
     exit;
 }
+
+$id = $_SESSION['id'];
+
+/* SITTER INFO */
+$sitter = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT * FROM sitters WHERE id = $id")
+);
+
+/* TOTAL BOOKINGS */
+$booking_data = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS total_bookings FROM books WHERE sitter_id = $id")
+);
+
+/* PENDING BOOKINGS */
+$pending_data = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS pending FROM books WHERE sitter_id = $id AND status = 2")
+);
+
+/* AVERAGE RATING */
+$rating_data = mysqli_fetch_assoc(
+    mysqli_query($conn, "
+        SELECT AVG(r.rating) AS avg_rating
+        FROM reviews r
+        JOIN books b ON r.booked_id = b.id
+        WHERE b.sitter_id = $id
+    ")
+);
+$average_rating = round($rating_data['avg_rating'],1);
+
+/* UPCOMING BOOKINGS */
+$upcoming_result = mysqli_query($conn, "
+    SELECT b.*, c.name AS child_name, p.name AS parent_name
+    FROM books b
+    JOIN children c ON b.child_id = c.id
+    JOIN parents p ON c.parent_id = p.id
+    WHERE b.sitter_id = $id
+    ORDER BY b.start_date ASC
+    LIMIT 5
+");
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sitter Dashboard</title>
     <link rel="stylesheet" href="/babysafe/css/admin/dashboard.css">
 </head>
 <body>
-    <h2>Welcome to Sitter Dashboard</h2>
 
-    <p>Click below to start verification:</p>
+<div class="container">
 
-    <a href="../auth/is_auth/sitters/personal.php">
-        <button>Start Verification</button>
-    </a>
-        
+<!-- PROFILE CARD -->
+<div class="profile-card">
+    <div class="left">
+        <img src="../uploads/<?php echo $sitter['image'] ?? 'default.png'; ?>" class="avatar">
+        <div>
+            <h2><?php echo $sitter['name']; ?></h2>
+            <p><?php echo $sitter['email']; ?></p>
+            <span class="badge verified">✔ Verified</span>
+            <span class="badge sitter">👶 Sitter</span>
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <h3><?php echo $booking_data['total_bookings']; ?></h3>
+            <p>Total Bookings</p>
+        </div>
+        <div class="stat">
+            <h3><?php echo $pending_data['pending']; ?></h3>
+            <p>Pending</p>
+        </div>
+        <div class="stat">
+            <h3><?php echo $average_rating ?: 0; ?></h3>
+            <p>Rating</p>
+        </div>
+    </div>
+</div>
+
+<!-- UPCOMING BOOKINGS TABLE -->
+<div class="table-card">
+    <h2>Upcoming Bookings</h2>
+
+    <table>
+        <tr>
+            <th>Parent</th>
+            <th>Child</th>
+            <th>Start Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        <?php while($row = mysqli_fetch_assoc($upcoming_result)) { ?>
+        <tr>
+            <td><?php echo $row['parent_name']; ?></td>
+            <td><?php echo $row['child_name']; ?></td>
+            <td><?php echo date("d M Y", strtotime($row['start_date'])); ?></td>
+
+            <td>
+                <?php
+                if($row['status'] == 2){
+                    echo "<span class='status pending'>Pending</span>";
+                }elseif($row['status'] == 1){
+                    echo "<span class='status accepted'>Accepted</span>";
+                }else{
+                    echo "<span class='status rejected'>Rejected</span>";
+                }
+                ?>
+            </td>
+
+            <td>
+                <?php if($row['status'] == 2){ ?>
+                    <a class="btn accept" href="update_booking.php?id=<?php echo $row['id']; ?>&status=1">Accept</a>
+                    <a class="btn reject" href="update_booking.php?id=<?php echo $row['id']; ?>&status=0">Reject</a>
+                <?php } ?>
+            </td>
+        </tr>
+        <?php } ?>
+    </table>
+</div>
+
+</div>
 </body>
 </html>

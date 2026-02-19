@@ -1,5 +1,4 @@
 <?php
-
 require_once('database.php');
 //connecting to database
 $servername = "localhost";
@@ -22,6 +21,8 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+
+
  //admin start
 //creating table for Admin 
 /*$sql = "CREATE TABLE IF NOT EXISTS admin(
@@ -38,7 +39,7 @@ if (!$conn) {
 if (mysqli_query($conn, $sql)) {
     // Table created successfully, no need to echo anything
 } else {
-    echo "Error Creating table: " . mysqli_error($conn);
+    //error
 }
 
 // Inserting default admin data
@@ -82,7 +83,7 @@ $sql = "CREATE TABLE IF NOT EXISTS parents(
 if (mysqli_query($conn, $sql)) {
     // Table created successfully, no need to echo anything
 } else {
-    echo "Error Creating table: " . mysqli_error($conn);
+    //error
 }
 
 // Inserting default parents data
@@ -128,9 +129,9 @@ $sql = "CREATE TABLE IF NOT EXISTS sitters(
 )";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Table created successfully<br>";
+    //success
 } else {
-    echo "Error creating table: " . mysqli_error($conn);
+    //error
 }
 
 $hashed_password = password_hash('bpassword', PASSWORD_DEFAULT);
@@ -162,9 +163,9 @@ $sql ="CREATE TABLE IF NOT EXISTS children(
     )";
 
     if (mysqli_query($conn, $sql)) {
-    echo "Table created successfully<br>";
+    //success
 } else {
-    echo "Error creating table: " . mysqli_error($conn);
+    //error
 }
 
     $sql = "INSERT IGNORE INTO children(id,name,dob,image,gender,allergies,special_needs,interests,created_at,parent_id)
@@ -194,9 +195,9 @@ $sql ="CREATE TABLE IF NOT EXISTS books(
 
  )";
   if (mysqli_query($conn, $sql)) {
-    echo "Table created successfully<br>";
+    //success
 } else {
-    echo "Error creating table: " . mysqli_error($conn);
+    //error
 }
 
 //creating table for review
@@ -212,9 +213,9 @@ $sql ="CREATE TABLE IF NOT EXISTS reviews(
 )";   
 
  if (mysqli_query($conn, $sql)) {
-    echo "Table created successfully<br>";
+    //success
 } else {
-    echo "Error creating table: " . mysqli_error($conn);
+    //error
 }
    
 
@@ -230,9 +231,9 @@ $sql ="CREATE TABLE IF NOT EXISTS skills(
 )";
 
  if (mysqli_query($conn, $sql)) {
-    echo "Table created successfully<br>";
+    //success
 } else {
-    echo "Error creating table: " . mysqli_error($conn);
+    //error
 }
 */
 

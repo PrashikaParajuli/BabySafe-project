@@ -1,0 +1,133 @@
+/* for search and filteration */
+.search {
+    width: 100%;
+    padding: 25px 60px;
+    display: block;
+}
+
+.search input {
+    width: 100%;
+    max-width: 1400px;
+    height: 40px;
+    padding: 12px 18px;
+    font-size: 16px;
+    border-radius: 20px;
+    border: 1px solid #d0d8e8;
+    outline: none;
+    transition: 0.3s;
+    display: block;
+}
+
+.search input:focus {
+    border-color: #22505f;
+    box-shadow: 0 0 0 1px #8bc3d6;
+}
+
+/* slider container */
+.slider{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    padding:30px 60px;
+    position:relative;
+}
+
+/* hide scrollbar */
+.slider::-webkit-scrollbar{
+    display:none;
+}
+
+/* ===== ARROW BUTTON ===== */
+.arrow{
+    position:sticky;
+    top:50%;
+    transform:translateY(-50%);
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:50%;
+    background:#000;
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+    flex-shrink:0;
+    z-index:10;
+    transition:0.3s;
+}
+
+.arrow:hover{
+    background:#333;
+}
+
+/* ===== SITTER CARD ===== */
+.sitter-card{
+    width:280px;               /* fixed width */
+    height:430px;              /* fixed height */
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    overflow:hidden;
+    flex-shrink:0;             /* prevent resizing */
+    display:flex;
+    flex-direction:column;
+    transition:0.3s;
+}
+
+/* image */
+.sitter-card img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+}
+
+/* content area */
+.card-content{
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    flex:1;
+}
+
+/* name */
+.name{
+    font-size:20px;
+    font-weight:bold;
+    color:#1f3f4b;
+}
+
+/* age */
+.age{
+    font-size:14px;
+    color:#666;
+}
+
+/* bio (collapsed by default) */
+.bio{
+    font-size:14px;
+    color:#444;
+    line-height:1.5;
+    height:60px;                 /* fixed */
+    overflow:hidden;
+    transition:0.3s ease;
+}
+
+/* expanded bio */
+.sitter-card.active .bio{
+    height:auto;
+}
+
+/* see more button */
+.qualification{
+    margin-top:auto;
+    font-size:14px;
+    font-weight:bold;
+    color:#1f3f4b;
+    cursor:pointer;
+}
+
+.qualification:hover{
+    text-decoration:underline;
+}

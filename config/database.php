@@ -11,7 +11,6 @@
      #Create a database 
     $sql = "CREATE DATABASE IF NOT EXISTS babysafe";
     $res = mysqli_query($conn , $sql);
-    echo "<br>";
     //Check for the database creation success
     if($res){        
         //echo "DB created successfully!!!";

@@ -1,0 +1,41 @@
+.a-mh{
+    display: flex;
+    justify-content: center;
+    color: #1f3f4b;
+    margin-top: 30px;
+    font-weight: lighter;
+    font-size: 30px;
+}
+.abt-container{
+    padding: 40px;
+}
+.p{
+    margin-top: 20px;
+    margin-bottom: 25px;
+    font-size: 19px;
+    color: grey;
+}
+
+.card-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+    padding: 10px;
+}
+
+.about-card {
+    background-color: #f3f8ff;
+    border-radius: 16px;
+    padding: 10px;
+    flex: 1;
+}
+
+.about-card .a-h {
+    margin-top: 0;
+    font-size: 20px;
+    color: #1f3f4b;
+    font-weight: bold;
+}
+
+

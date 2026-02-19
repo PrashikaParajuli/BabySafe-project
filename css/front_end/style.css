@@ -8,9 +8,6 @@
     --primary-color:#1f3f4b;
     --secondary-color:#22505f;
 }
-body{
-    margin: 0;
-}
 nav{
     background-color:var(--primary-color);
     height: 70px;
@@ -19,8 +16,8 @@ nav{
     justify-content: space-between;
     align-items: center;
     position: sticky;
+    z-index:1000;
     top: 0;
-
 }
 .logo{
     color: white;
@@ -51,11 +48,14 @@ nav ul li{
 nav ul li a{
     text-decoration: none;
     color: white;
-    padding: 8px 24px;
+    padding: 8px 20px;
     font: 16px;
 }
-.nav-btns ul li a{
-   text-decoration: none; 
+.nav-btns ul{
+   text-decoration: none;
+   display: flex;
+   gap: 0px;
+
 }
 
 .nav-links ul li a:hover{
@@ -64,19 +64,9 @@ nav ul li a{
     border-radius: 10px;
 }
 
-.nav-btns ul {
-    list-style: none;
-    display: flex;
-}
-
-.nav-btns ul li {
-    margin-left: 10px;
-}
-
 .nav-btns button {
     width: 90px;
     height: 35px;
-    padding: 6px 10px;
     border: 1px solid black;
     border-radius: 10px;
     cursor: pointer;
@@ -104,14 +94,83 @@ nav ul li a{
     background-color: #333;
 }
 
-.search{
-    height: 50px;
-    width: 500px;
+/* css for the hero section of index page */
+
+
+
+/* HERO SECTION */
+
+.main-hero {
+    height: 550px;
+    display: flex;
+    background-color: #f3f8ff ;
+    justify-content: space-between;
+    padding: 60px 20px;
 }
+
+/* HERO CONTENT */
+.hero-content{
+    width: 45%;
+}
+.hero-content h3 {
+    
+    font-size: 42px;
+    color: #0a1a44;
+    margin-bottom: 15px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    color: #4a5a7a;
+    margin-bottom: 35px;
+}
+
+/* BUTTONS */
+.hero-btn {
+    display: flex;
+    gap: 20px;
+}
+
+.hero-btn button {
+    padding: 14px 32px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: 500;
+}
+.hero-btn .btn1{
+    background-color: white;
+}
+.hero-btn .btn2{
+    background-color: black;
+    color: white;
+
+}
+.hero-btn .btn1:hover{
+    background-color: wheat;
+}
+.hero-btn .btn2:hover{
+    background-color: #025747;
+}
+
+/* RIGHT SIDE IMAGE */
+.hero-img{
+    width:50%;
+}
+
+.hero-img img{
+    width:100%;
+    border-radius:20px;
+}
+
+
 
 /* css for footer */
 
 .footer{
+    margin-top: 10px;
     background:var(--primary-color);
     color: white;
 }
@@ -161,19 +220,6 @@ nav ul li a{
     padding: 15px;
     border-top: 1px solid rgba(255,255,255,0.2);
     font-size: 14px;
-}
-
-
-/* css for hero section */
-
-.hero{
-    height: 800px;
-    background-image: url("/babysafe/assets/hero.jpg");
-    background-size: cover;
-}
-.hero-content .hero-btn{
-    display: flex;
-    align-content: center;
 }
 
 

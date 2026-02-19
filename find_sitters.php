@@ -6,13 +6,16 @@ $sql = "SELECT * FROM sitters";
 $result = mysqli_query($conn, $sql);
 ?>
 
+<div class="search">
+    <input type="text" name="search" placeholder="search">
+</div>
 <div class="slider">
 
     <button class="arrow">&#10094;</button>
 
     <?php while($row = mysqli_fetch_assoc($result)) { ?>
         
-        <div class="card">
+        <div class="sitter-card">
             <img src="<?php echo $row['image']; ?>" alt="<?php echo $row['name'];?>">
 
             <div class="card-content">
@@ -47,6 +50,3 @@ $result = mysqli_query($conn, $sql);
 <?php
     require('includes/footer.php');
 ?>
-
-</body>
-</html>

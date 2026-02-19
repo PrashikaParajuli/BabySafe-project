@@ -1,0 +1,157 @@
+/* for slider */
+.slider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    overflow-x:auto;           /* allows horizontal sliding */
+    scroll-behavior:smooth;
+    padding:10px;
+}
+
+/* Hide scrollbar (optional) */
+.slider::-webkit-scrollbar{
+    display:none;
+}
+
+/*  for the card */
+.sitter-card{
+    width:280px;               /* fixed width */
+    height:430px;              /* fixed height */
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    flex-shrink:0;             /* it helps to prevents resizing the card so won't be different size */
+    display:flex;
+    flex-direction:column;
+}
+
+/* Fixed image size */
+.sitter-card img{
+    width:100%;
+    height:180px;              /* fixed image area */
+    object-fit:cover;          /* keeps image quality */
+}
+
+/* Content area */
+.card-content{
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    flex:1;
+}
+
+/* Name */
+.name{
+    font-size:20px;
+    font-weight:bold;
+    color:#1f3f4b;
+}
+
+/* Age */
+.age{
+    font-size:14px;
+    color:#666;
+}
+
+/* Bio (fixed height so cards stay same size) */
+.bio{
+    font-size:14px;
+    color:#444;
+    line-height:1.4;
+    
+    height:60px;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp: 3;      /* show only 3 lines */
+}
+
+/* Show more text */
+.qualification{
+    margin-top:auto;
+    font-size:14px;
+    font-weight:bold;
+    color:#1f3f4b;
+    cursor:pointer;
+}
+
+.qualification:hover{
+    text-decoration:underline;
+}
+
+/* for the arrow*/
+.arrow{
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:50%;
+    background:black;
+    color:#fff;
+    font-size:22px;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:0.3s;
+}
+
+.arrow:hover{
+    background: #333;
+}
+
+
+
+/* hero css */
+
+.main-hero {
+    height: 700px;
+    display: flex;
+    background-color: #f3f8ff ;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 20px;
+}
+
+/* HERO CONTENT */
+.hero-content{
+    width: 45%;
+}
+.hero-content h3 {
+    
+    font-size: 42px;
+    color: #0a1a44;
+    margin-bottom: 15px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    color: #4a5a7a;
+    margin-bottom: 35px;
+}
+
+/* BUTTONS */
+.hero-btn {
+    display: flex;
+    gap: 20px;
+}
+
+.hero-btn button {
+    padding: 14px 32px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: 500;
+}
+
+/* RIGHT SIDE IMAGE */
+.hero-img{
+    width:50%;
+}
+
+.hero-img img{
+    width:100%;
+    border-radius:20px;
+}
