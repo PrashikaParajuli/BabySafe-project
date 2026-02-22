@@ -49,6 +49,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         move_uploaded_file($_FILES['photo']['tmp_name'], "upload/photo_".$_FILES['photo']['name']);
     }
+
+    if(
+    !isset($_SESSION['parents']) ||
+    !isset($_SESSION['address']) ||
+    !isset($_SESSION['documents'])
+    ){
+        header("Location: personal.php");
+        exit;
+    }
+
+    $p = $_SESSION['parents'];
+    $a = $_SESSION['address'];
+    $d = $_SESSION['documents'];
+
+    $sql = "INSERT INTO parents
+    (name,dob,qualification,experiences,spouse,age,phone,gender,
+    province,district,city,ward,tole,
+    doc_type,photo,front_doc,back_doc)
+    VALUES (
+    '{$p['name']}','{$p['dob']}','{$p['qualification']}','{$p['experiences']}','{$p['spouse']}',
+    '{$p['age']}','{$p['phone']}','{$p['gender']}',
+    '{$a['province']}','{$a['district']}','{$a['city']}','{$a['ward']}','{$a['tole']}',
+    '{$d['type']}','{$d['photo']}','{$d['front']}','{$d['back']}'
+    )";
+
+    mysqli_query($conn, $sql);
+
+    /* CLEAR SESSION */
+    unset($_SESSION['parents'], $_SESSION['address'], $_SESSION['documents']);
+
+    echo "Verification completed successfully";
+
 }
 ?>
 
@@ -57,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Document Information verification</title>
 </head>
 <body>
     <h2>Upload Document</h2>

@@ -65,10 +65,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $phone = mysqli_real_escape_string($conn, $phone);
         $gender = mysqli_real_escape_string($conn, $gender);
 
-        $sql = "INSERT INTO parents ( name, dob, qualification, experiences, age, phone, gender) 
-                VALUES ('$name', '$dob', '$qualification','$experiences' '$age', '$phone', '$gender')";
-
-        if(mysqli_query($conn, $sql)) {
+        if(empty($errors)) {
             $_SESSION['parents'] = [
                 'name' => $name,
                 'dob' => $dob,
@@ -95,11 +92,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification | BabySafe</title>
-    <link rel="stylesheet" href="/babysafe/css/admin/form.css">
+    <link rel="stylesheet" href="/babysafe/css/form.css">
 </head>
 <body>
     <!-- Step 1 of Verification -->
-    <h2>Personal Information</h2>
+    <h2>Personal Information verification</h2>
     <form  method="post" id="verificationPersonal">
         <div class="input-field">
             <label for="name">Full Name

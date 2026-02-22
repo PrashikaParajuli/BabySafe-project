@@ -1,0 +1,237 @@
+/* ================= RESET ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ================= DASHBOARD LAYOUT ================= */
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f6f9;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+    width: 240px;
+    background: #1f3f4b;
+    color: white;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar-logo h2 {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* MENU */
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    flex: 1;
+}
+
+.sidebar-menu li {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover {
+    background: #22505f;
+    border-left: 4px solid #fff;
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+    margin-left: 240px; 
+    padding: 30px;
+    width: calc(100% - 240px);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    min-height: 100vh;
+}
+
+/* ================= PROFILE CARD ================= */
+.profile-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.profile-card .left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-card h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: #1f3f4b;
+}
+
+.profile-card p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* ================= DASHBOARD CARDS / STATS ================= */
+.cards, .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card, .stat {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+.card:hover, .stat:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.card h3, .stat h3 {
+    font-size: 18px;
+    color: #1f3f4b;
+    margin-bottom: 8px;
+}
+
+.card p, .stat p {
+    font-size: 22px;
+    font-weight: bold;
+    color: #1f3f4b;
+}
+
+/* ================= TABLE CONTAINER ================= */
+.table-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+
+.table-container h3 {
+    margin-bottom: 20px;
+    color: #1f3f4b;
+    font-size: 18px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #333;
+}
+
+table th {
+    background: #f0f2f5;
+    padding: 14px 15px;
+    text-align: left;
+    font-size: 15px;
+    color: #1f3f4b;
+}
+
+table td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+table tr:hover {
+    background: #f1f1f1;
+}
+
+/* ================= STATUS BADGES ================= */
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.accepted {
+    background: #d4edda;
+    color: #155724;
+}
+
+.rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ================= BUTTONS ================= */
+.btn {
+    padding: 7px 14px;
+    font-size: 13px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    margin-right: 5px;
+    display: inline-block;
+    transition: 0.3s ease;
+}
+
+.accept {
+    background: #28a745;
+}
+
+.reject {
+    background: #dc3545;
+}
+
+.accept:hover {
+    background: #218838;
+}
+
+.reject:hover {
+    background: #c82333;
+}

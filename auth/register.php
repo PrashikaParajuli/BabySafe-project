@@ -86,6 +86,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 </head>
 <body>
     <div class="container">
+         <div class="image">
+            <img src="/babysafe/assets/babysafe-cover.webp" alt="">
+        </div>
         <div class="wrapper signin-wrapper">
             <h2>Create Your account</h2>
             <p class="subtitle">Join BabySafe Today!!</p>
@@ -152,10 +155,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 <p> <small>Already have an account? <a href="login.php">Sign in</a></small></p>
             </div>
         </form>
-        </div>
-        
-        <div class="image">
-            <img src="/babysafe/assets/babysafe-cover.webp" alt="">
         </div>
     </div>
 </body>

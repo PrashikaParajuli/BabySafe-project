@@ -64,45 +64,63 @@ require_once '../config/connection.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div class="wrapper signin-wrapper">
-        <h2>Welcome Back !</h2>
-        <p class="subtitle">Sign into your BabySafe</p>
-        <br>
-        <div class="role-toggle">
-            <button type="button" class="role-btn border active" onclick="set_role('parent',this);">I'm a Parent</button>
-            <button type="button" class="role-btn border"  onclick="set_role('sitter',this);">I'm a Sitter</button>
+    <div class="container">
+        <div class="image">
+            <img src="/babysafe/assets/babysafe-cover.webp" alt="">
         </div>
-       
-        <div>
-            <form class="login_form" action="" method="post">
-                <div class="input-area">
-                    <input type="hidden" name="role" id="role" value="parent">
-                    <label for="email"><i class="fa-solid fa-envelope"></i>Email <span class="required">*</span>
-                    </label><br>
-                    <input type="text" name="email" id="email" value="<?= htmlspecialchars($email ?? '') ?>"><br>
-                </div>
-
-                <div class="input-area">  
-                    <label for="password"><i class="fa-solid fa-lock"></i>Password <span class="required">*</span>
-                    </label><br>
-                    <input type="password" name="password" id="password"><br>
-                    <?php if (isset($errors['login'])): ?>
-                    <p class="errors"><?php echo $errors['login']; ?></p>
-                    <?php endif; ?>
-                </div>
-
-                <div class="frg-pass">
-                    <a href="forgot_pass.php" class="frg-pass">Forgot Password?</a><br>
-                </div>
-
-                <div class="input-area">
-                    <button class="submit-btn signin-btn border">Sign In</button>
-                    <p><small>Don't have an account? <a href="register.php">Sign Up</a></small></p>
-                </div>
+        <div class="wrapper signin-wrapper">
+            <h2>Welcome Back !</h2>
+            <p class="subtitle">Sign into your BabySafe</p>
+            <br>
+            <div class="role-toggle">
+                <button type="button" class="role-btn border active" onclick="set_role('parent',this);">I'm a Parent</button>
+                <button type="button" class="role-btn border"  onclick="set_role('sitter',this);">I'm a Sitter</button>
+            </div>
             
-            </form>
+            <div>
+                <form class="login_form" action="" method="post">
+                    <div class="input-area">
+                        <input type="hidden" name="role" id="role" value="parent">
+                        <label for="email"><i class="fa-solid fa-envelope"></i>Email <span class="required">*</span>
+                        </label><br>
+                        <input type="text" name="email" id="email" value="<?= htmlspecialchars($email ?? '') ?>"><br>
+                    </div>
+                    
+                    <div class="input-area">  
+                        <label for="password"><i class="fa-solid fa-lock"></i>Password <span class="required">*</span>
+                        </label><br>
+                        <input type="password" name="password" id="password"><br>
+                        <?php if (isset($errors['login'])): ?>
+                            <p class="errors"><?php echo $errors['login']; ?></p>
+                            <?php endif; ?>
+                    </div>
+                    
+                    <div class="frg-pass">
+                        <a href="forgot_pass.php" class="frg-pass">Forgot Password?</a><br>
+                    </div>
+                    
+                    <div class="input-area">
+                        <button class="submit-btn signin-btn border">Sign In</button>
+                        <p><small>Don't have an account? <a href="register.php">Sign Up</a></small></p>
+                    </div>
+                </form>
+            </div>
         </div>
+            
     </div>
-    <script src="/babysafe/js/auth/script.js"></script>
+    <script>
+        function set_role(role,btn){
+            document.getElementById('role').value = role;
+
+         document.querySelectorAll('.role-btn').forEach(button =>
+         {
+            button.classList.remove('active');
+        });
+
+        btn.classList.add('active');
+
+        console.log =  (document.getElementById('role').value);
+    }
+    </script>
 </body>
 </html>

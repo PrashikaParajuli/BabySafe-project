@@ -77,7 +77,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 'phone' => $phone,
                 'gender' => $gender
             ];
-            header("Location: address.php");
+            header("Location: /babysafe/auth/is_auth/address.php");
             exit;
         } else {
             $errors['database'] = "Failed to save data: " . mysqli_error($conn);
@@ -103,7 +103,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             <label for="name">Full Name
                 <span class="required">*</span>
             </label><br>
-            <input type="text" name="name" value="<?= htmlspecialchars($name ?? '') ?>" placeholder="Full Name"><br>
+            <input type="text" name="name" id="name" value="<?= htmlspecialchars($name ?? '') ?>" placeholder="Full Name"><br>
             <!-- This is for JS errors -->
             <p class="errors" id="nameError"></p>
 
@@ -117,7 +117,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             <label for="dob">Date of Birth
                 <span class="required">*</span>
             </label><br>
-            <input type="text" name="dob" value="<?= htmlspecialchars($dob ?? '') ?>" placeholder="2050-5-8"><br>
+            <input type="text" name="dob" id="dob" value="<?= htmlspecialchars($dob ?? '') ?>" placeholder="2050-5-8"><br>
             <!-- This is for JS errors -->
             <p class="errors" id="dobError"></p>
 
@@ -131,7 +131,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             <label for="occupation">Occupation
                 <span class="required">*</span>
             </label><br>
-            <input type="text" name="occupation" value="<?= htmlspecialchars($occupation ?? '') ?>" placeholder="Doctor"><br>
+            <input type="text" name="occupation" id="occupation" value="<?= htmlspecialchars($occupation ?? '') ?>" placeholder="Doctor"><br>
             <!-- This is for JS errors -->
             <p class="errors" id="occupationError"></p>
 
@@ -209,78 +209,78 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     <script>
         document.getElementById("verificationPersonal").onsubmit = function () {
 
-    // get input values
-    var name = document.getElementById("name").value;
-    var dob = document.getElementById("dob").value;
-    var occupation = document.getElementById("occupation").value;
-    var age = document.getElementById("age").value;
-    var phone = document.getElementById("phone").value;
+            // get input values
+            var name = document.getElementById("name").value;
+            var dob = document.getElementById("dob").value;
+            var occupation = document.getElementById("occupation").value;
+            var age = document.getElementById("age").value;
+            var phone = document.getElementById("phone").value;
 
-    // gender (radio button)
-    var male = document.getElementById("male").checked;
-    var female = document.getElementById("female").checked;
-    var other = document.getElementById("other").checked;
+            // gender (radio button)
+            var male = document.getElementById("male").checked;
+            var female = document.getElementById("female").checked;
+            var other = document.getElementById("other").checked;
 
-    // clear old error messages
-    document.getElementById("nameError").innerHTML = "";
-    document.getElementById("dobError").innerHTML = "";
-    document.getElementById("occupationError").innerHTML = "";
-    document.getElementById("ageError").innerHTML = "";
-    document.getElementById("phoneError").innerHTML = "";
-    document.getElementById("genderError").innerHTML = "";
+            // clear old error messages
+            document.getElementById("nameError").innerHTML = "";
+            document.getElementById("dobError").innerHTML = "";
+            document.getElementById("occupationError").innerHTML = "";
+            document.getElementById("ageError").innerHTML = "";
+            document.getElementById("phoneError").innerHTML = "";
+            document.getElementById("genderError").innerHTML = "";
 
-    var hasError = false;
+            var hasError = false;
 
-    // name check
-    if (name == "") {
-        document.getElementById("nameError").innerHTML = "Full Name is required";
-        hasError = true;
-    }
+            // name check
+            if (name == "") {
+                document.getElementById("nameError").innerHTML = "Full Name is required";
+                hasError = true;
+            }
 
-    // dob check
-    if (dob == "") {
-        document.getElementById("dobError").innerHTML = "Date of Birth is required";
-        hasError = true;
-    }
+            // dob check
+            if (dob == "") {
+                document.getElementById("dobError").innerHTML = "Date of Birth is required";
+                hasError = true;
+            }
 
-    // occupation check
-    if (occupation == "") {
-        document.getElementById("occupationError").innerHTML = "Occupation is required";
-        hasError = true;
-    }
+            // occupation check
+            if (occupation == "") {
+                document.getElementById("occupationError").innerHTML = "Occupation is required";
+                hasError = true;
+            }
 
-    // age check
-    if (age == "") {
-        document.getElementById("ageError").innerHTML = "Age is required";
-        hasError = true;
-    }
+            // age check
+            if (age == "") {
+                document.getElementById("ageError").innerHTML = "Age is required";
+                hasError = true;
+            }
 
-    // phone check
-    if (phone == "") {
-        document.getElementById("phoneError").innerHTML = "Phone number is required";
-        hasError = true;
-    }
+            // phone check
+            if (phone == "") {
+                document.getElementById("phoneError").innerHTML = "Phone number is required";
+                hasError = true;
+            }
 
-    // phone length
-    if (phone != "" && phone.length != 10) {
-        document.getElementById("phoneError").innerHTML = "Phone must be 10 digits";
-        hasError = true;
-    }
+            // phone length
+            if (phone != "" && phone.toString().length != 10) {
+                document.getElementById("phoneError").innerHTML = "Phone must be 10 digits";
+                hasError = true;
+            }
 
-    // gender check
-    if (male == false && female == false && other == false) {
-        document.getElementById("genderError").innerHTML = "Gender is required";
-        hasError = true;
-    }
+            // gender check
+            if (male == false && female == false && other == false) {
+                document.getElementById("genderError").innerHTML = "Gender is required";
+                hasError = true;
+            }
 
-    // if error exists, stop form submit
-    if (hasError == true) {
-        return false;
-    }
+            // if error exists, stop form submit
+            if (hasError == true) {
+                return false;
+            }
 
-    // no error → form submits
-    return true;
-};
+            // no error → form submits
+            return true;
+        };
 
 
     </script>
