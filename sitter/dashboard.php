@@ -54,7 +54,7 @@ $upcoming_result = mysqli_query($conn, "
     <title>Sitter Dashboard</title>
 
     <!-- SITTER DASHBOARD CSS -->
-    <link rel="stylesheet" href="/Babysafe/css/sitters/dashboard.css">
+    <link rel="stylesheet" href="/Babysafe/css/users/dashboard.css">
 
     <!-- FONT AWESOME ICONS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -113,8 +113,12 @@ $upcoming_result = mysqli_query($conn, "
                 <div>
                     <h2><?php echo $sitter['name']; ?></h2>
                     <p><?php echo $sitter['email']; ?></p>
-                    <span class="badge verified">✔ Verified</span>
-                    <span class="badge sitter">👶 Sitter</span>
+                    <?php if($sitter['is_verified'] == 1){ ?>
+                        <span class="badge verified">✔ Verified</span>
+                    <?php } else { ?>
+                     <span class="badge not-verified">Not Verified</span>
+                    <?php } ?>
+                    <span class="badge sitter"> Sitter</span>
                 </div>
             </div>
 

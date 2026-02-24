@@ -39,7 +39,7 @@
     display:none;
 }
 
-/* ===== ARROW BUTTON ===== */
+/* ARROW BUTTON */
 .arrow{
     position:sticky;
     top:50%;
@@ -61,15 +61,15 @@
     background:#333;
 }
 
-/* ===== SITTER CARD ===== */
+/* SITTER CARD */
 .sitter-card{
-    width:280px;               /* fixed width */
-    height:430px;              /* fixed height */
+    width:280px;               /* fixed width for the sitter data card */
+    height:430px;              /* fixed height  for the sitter data card */
     background:#fff;
     border-radius:14px;
     box-shadow:0 6px 18px rgba(0,0,0,0.08);
     overflow:hidden;
-    flex-shrink:0;             /* prevent resizing */
+    flex-shrink:0;             /* prevent resizing of the card */
     display:flex;
     flex-direction:column;
     transition:0.3s;
@@ -104,17 +104,17 @@
     color:#666;
 }
 
-/* bio (collapsed by default) */
+/* bio (collapsed by default beacuse of fixed hight) */
 .bio{
     font-size:14px;
     color:#444;
     line-height:1.5;
-    height:60px;                 /* fixed */
+    height:60px;                 /* fixed height foe the sitter bio */
     overflow:hidden;
     transition:0.3s ease;
 }
 
-/* expanded bio */
+/* expanded bio if clicked see more details  */
 .sitter-card.active .bio{
     height:auto;
 }

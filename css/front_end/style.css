@@ -6,7 +6,7 @@
 }
 :root{
     --primary-color:#1f3f4b;
-    --secondary-color:#22505f;
+    --secondary-color:#1e293b;
 }
 nav{
     background-color:var(--primary-color);
@@ -22,11 +22,13 @@ nav{
 .logo{
     color: white;
     margin-right: 5px;
-
-}
-.logo{
     height: 50px;
     display: flex;
+
+}
+.logo a{
+    text-decoration: none;
+    color: white;
     
 
 }
@@ -59,7 +61,7 @@ nav ul li a{
 }
 
 .nav-links ul li a:hover{
-    background-color: black;
+    background-color: var(--secondary-color) ;
     height: auto;
     border-radius: 10px;
 }
@@ -80,7 +82,8 @@ nav ul li a{
 }
 
 .nav-register:hover {
-    background-color: grey;
+    background-color: var(--secondary-color);
+    color: white;
 }
 
 /* Login button (back) */
@@ -91,7 +94,7 @@ nav ul li a{
 }
 
 .nav-login:hover {
-    background-color: #333;
+    background-color: var(--secondary-color);
 }
 
 /* css for the hero section of index page */
@@ -149,10 +152,11 @@ nav ul li a{
 
 }
 .hero-btn .btn1:hover{
-    background-color: wheat;
+    background-color: var(--secondary-color);
+    color: white;
 }
 .hero-btn .btn2:hover{
-    background-color: #025747;
+    background-color: var(--secondary-color);
 }
 
 /* RIGHT SIDE IMAGE */

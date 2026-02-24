@@ -10,7 +10,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 // --- Parents Stats ---
 $total_parents    = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM parents"))['total'];
 $verified_parents = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM parents WHERE is_verified=1"))['total'];
-$blocked_parents  = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM parents WHERE is_verified=0"))['total'];
+$blocked_parents  = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM parents WHERE status=0"))['total'];
 $new_parents      = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM parents WHERE DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)"))['total'];
 
 // --- Sitters Stats ---
@@ -47,10 +47,47 @@ $revenue = $completed_bookings * 1000; // Rs 1000 per completed booking
         </div>
 
         <ul class="sidebar-menu">
-            <li><a href="dashboard.php?page=dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="dashboard.php?page=parents"><i class="fas fa-users"></i> Parents</a></li>
-            <li><a href="dashboard.php?page=sitters"><i class="fas fa-user-tie"></i> Sitters</a></li>
-            <li><a href="dashboard.php?page=bookings"><i class="fas fa-book"></i> Bookings</a></li>
+            <li>
+                <a href="dashboard.php?page=dashboard" 
+                class="<?php echo ($page=='dashboard') ? 'active' : ''; ?>">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="dashboard.php?page=parents" 
+                class="<?php echo ($page=='parents') ? 'active' : ''; ?>">
+                <i class="fas fa-users"></i> Parents
+                </a>
+            </li>
+
+            <li>
+                <a href="dashboard.php?page=children" 
+                class="<?php echo ($page=='children') ? 'active' : ''; ?>">
+                <i class="fas fa-child"></i> Children
+                </a>
+            </li>
+
+            <li>
+                <a href="dashboard.php?page=sitters" 
+                class="<?php echo ($page=='sitters') ? 'active' : ''; ?>">
+                <i class="fas fa-user-tie"></i> Sitters
+                </a>
+            </li>
+
+            <li>
+                <a href="dashboard.php?page=bookings" 
+                class="<?php echo ($page=='bookings') ? 'active' : ''; ?>">
+                <i class="fas fa-book"></i> Bookings
+                </a>
+            </li>
+
+            <li>
+                <a href="dashboard.php?page=reviews" 
+                class="<?php echo ($page=='reviews') ? 'active' : ''; ?>">
+                <i class="fas fa-star"></i> Reviews
+                </a>
+            </li>
         </ul>
     </aside>
 
@@ -114,6 +151,91 @@ $revenue = $completed_bookings * 1000; // Rs 1000 per completed booking
                 </tbody>
             </table>
         </div>
+        <?php endif; ?>
+
+        <!-- ---------------- CHILDREN TABLE ---------------- -->
+        <?php if($page == 'children'): 
+            $children = mysqli_query($conn, "
+                SELECT children.*, parents.name AS parent_name 
+                FROM children 
+                JOIN parents ON children.parent_id = parents.id
+                ORDER BY children.created_at DESC
+            ");
+        ?>
+        <div class="table-container">
+            <h3>All Children</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Parent</th>
+                        <th>Name</th>
+                        <th>DOB</th>
+                        <th>Gender</th>
+                        <th>Allergies</th>
+                        <th>Special Needs</th>
+                        <th>Interests</th>
+                        <th>Image</th>
+                        <th>Certificate Type</th>
+                        <th>Certificate File</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $sn=1; while($row = mysqli_fetch_assoc($children)): ?>
+                    <tr>
+                        <td><?= $sn++ ?></td>
+                        <td><?= htmlspecialchars($row['parent_name']) ?></td>
+                        <td><?= htmlspecialchars($row['name']) ?></td>
+                        <td><?= htmlspecialchars($row['dob']) ?></td>
+                        <td><?= $row['gender']==0?'Male':'Female' ?></td>
+                        <td><?= htmlspecialchars($row['allergies']) ?></td>
+                        <td><?= htmlspecialchars($row['special_needs']) ?></td>
+                        <td><?= htmlspecialchars($row['interests']) ?></td>
+                        <td>
+                            <img src="../uploads/<?= $row['image'] ?>" style="width:50px;height:50px;border-radius:50%;" alt="child">
+                        </td>
+                        <td><?= ucfirst($row['certificate_type']) ?></td>
+                        <td>
+                            <?php if($row['certificate_path']): ?>
+                                <a href="../uploads/<?= $row['certificate_path'] ?>" target="_blank">View</a>
+                            <?php else: ?>
+                                -
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <span class="status <?= $row['status'] ?>"><?= ucfirst($row['status']) ?></span>
+                        </td>
+                        <td>
+                            <?php if($row['status']=='pending'): ?>
+                                <a href="dashboard.php?page=children&action=approve&id=<?= $row['id'] ?>"><button class="btn-approve">Approve</button></a>
+                                <a href="dashboard.php?page=children&action=reject&id=<?= $row['id'] ?>"><button class="btn-reject">Reject</button></a>
+                            <?php else: ?>
+                                -
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <?php 
+        // Handle approve/reject actions
+        if(isset($_GET['action'], $_GET['id'])){
+            $action = $_GET['action'];
+            $child_id = (int)$_GET['id'];
+
+            if($action=='approve'){
+                mysqli_query($conn, "UPDATE children SET status='approved' WHERE id=$child_id");
+            } elseif($action=='reject'){
+                mysqli_query($conn, "UPDATE children SET status='rejected' WHERE id=$child_id");
+            }
+            header("Location: dashboard.php?page=children");
+            exit;
+        }
+        ?>
         <?php endif; ?>
 
 

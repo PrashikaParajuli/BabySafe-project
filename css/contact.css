@@ -71,11 +71,3 @@
     color: #5a6a85;
     line-height: 1.6;
 }
-
-/* RESPONSIVE 
-@media (max-width: 900px) {
-    .contact-info {
-        grid-template-columns: 1fr;
-        padding: 60px 30px;
-    }
-} */

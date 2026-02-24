@@ -6,87 +6,94 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ================= DASHBOARD LAYOUT ================= */
+/* ================= BODY & LAYOUT ================= */
+body {
+    background: #f4f6f9;
+    color: #333;
+}
+
 .dashboard {
     display: flex;
     min-height: 100vh;
-    background-color: #f4f6f9;
 }
 
 /* ================= SIDEBAR ================= */
 .sidebar {
     width: 240px;
-    background: #1f3f4b;
-    color: white;
+    background-color: #1f3f4b;
+    color: #fff;
     position: fixed;
     height: 100vh;
-    left: 0;
     top: 0;
-    padding-top: 20px;
+    left: 0;
+    padding-top: 30px;
     display: flex;
     flex-direction: column;
+    gap: 30px;
 }
 
 .sidebar-logo {
     text-align: center;
-    margin-bottom: 30px;
 }
 
 .sidebar-logo h2 {
     font-size: 22px;
     font-weight: 600;
+    letter-spacing: 1px;
 }
 
-/* MENU */
 .sidebar-menu {
     list-style: none;
-    padding: 0;
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
-.sidebar-menu li {
-    margin-bottom: 5px;
-}
-
-.sidebar-menu a {
+.sidebar-menu li a {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 12px 20px;
-    color: white;
-    text-decoration: none;
     font-size: 16px;
+    color: #fff;
+    text-decoration: none;
     border-left: 4px solid transparent;
+    border-radius: 8px;
     transition: all 0.3s ease;
 }
 
-.sidebar-menu a:hover {
-    background: #22505f;
+.sidebar-menu li a:hover {
+    background-color: #22505f;
     border-left: 4px solid #fff;
+}
+
+.sidebar-menu li a.active {
+    background-color: #fff;
+    color: #1f3f4b;
+    border-left: 4px solid #1f3f4b;
+    font-weight: 600;
+    transform: translateX(4px);
 }
 
 /* ================= MAIN CONTENT ================= */
 .main-content {
-    margin-left: 240px; 
-    padding: 30px;
+    margin-left: 240px;
+    padding: 30px 40px;
     width: calc(100% - 240px);
     display: flex;
     flex-direction: column;
     gap: 30px;
-    min-height: 100vh;
 }
 
 /* ================= PROFILE CARD ================= */
 .profile-card {
-    background: white;
+    background: #fff;
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.05);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
 .profile-card .left {
@@ -100,6 +107,7 @@
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
+    border: 3px solid #1f3f4b;
 }
 
 .profile-card h2 {
@@ -109,129 +117,141 @@
 }
 
 .profile-card p {
+    color: gray;
     font-size: 14px;
-    color: #666;
 }
 
-/* ================= DASHBOARD CARDS / STATS ================= */
-.cards, .stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+/* ================= BADGES ================= */
+.badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 5px;
 }
 
-.card, .stat {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    will-change: transform;
+.verified {
+    background-color: #d4edda;
+    color: #155724;
 }
 
-.card:hover, .stat:hover {
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+.not-verified {
+    background-color: #f8d7da;
+    color: #721c24;
 }
 
-.card h3, .stat h3 {
-    font-size: 18px;
-    color: #1f3f4b;
-    margin-bottom: 8px;
+.parent {
+    background-color: #dbeafe;
+    color: #1e40af;
+    margin-left: 8px;
 }
 
-.card p, .stat p {
+/* ================= STATS ================= */
+.stats {
+    display: flex;
+    gap: 25px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat h3 {
     font-size: 22px;
-    font-weight: bold;
+    font-weight: 700;
     color: #1f3f4b;
+}
+
+.stat p {
+    font-size: 13px;
+    color: gray;
 }
 
 /* ================= TABLE CONTAINER ================= */
 .table-container {
-    background: white;
-    padding: 25px;
+    background-color: #fff;
+    padding: 25px 20px;
     border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     overflow-x: auto;
 }
 
 .table-container h3 {
+    font-size: 18px;
+    font-weight: 600;
     margin-bottom: 20px;
     color: #1f3f4b;
-    font-size: 18px;
 }
 
+/* ================= TABLE ================= */
 table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
-    color: #333;
+}
+
+table th, 
+table td {
+    padding: 12px 15px;
+    text-align: left;
 }
 
 table th {
-    background: #f0f2f5;
-    padding: 14px 15px;
-    text-align: left;
-    font-size: 15px;
+    background-color: #f0f2f5;
+    font-weight: 600;
     color: #1f3f4b;
 }
 
-table td {
-    padding: 14px 15px;
-    border-bottom: 1px solid #eee;
+table tr {
+    border-bottom: 1px solid #e5e7eb;
 }
 
 table tr:hover {
-    background: #f1f1f1;
+    background-color: #f8f9fa;
 }
 
 /* ================= STATUS BADGES ================= */
 .status {
-    padding: 6px 12px;
+    padding: 5px 12px;
     border-radius: 20px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     display: inline-block;
+    min-width: 80px;
+    text-align: center;
 }
 
 .pending {
-    background: #fff3cd;
+    background-color: #fff3cd;
     color: #856404;
 }
 
 .accepted {
-    background: #d4edda;
+    background-color: #d4edda;
     color: #155724;
 }
 
 .rejected {
-    background: #f8d7da;
+    background-color: #f8d7da;
     color: #721c24;
 }
 
 /* ================= BUTTONS ================= */
 .btn {
-    padding: 7px 14px;
+    padding: 6px 14px;
     font-size: 13px;
     border-radius: 5px;
     text-decoration: none;
-    color: white;
-    margin-right: 5px;
+    color: #fff;
     display: inline-block;
-    transition: 0.3s ease;
+    transition: background 0.2s ease;
 }
 
-.accept {
-    background: #28a745;
+.review {
+    background-color: #2563eb;
 }
 
-.reject {
-    background: #dc3545;
-}
-
-.accept:hover {
-    background: #218838;
-}
-
-.reject:hover {
-    background: #c82333;
+.review:hover {
+    background-color: #1e40af;
 }

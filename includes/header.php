@@ -15,7 +15,7 @@ session_start();
 <body>
     <nav>
         <div class="logo border">
-            <label>BabySafe</label>  
+            <label><a href="index.php">BabySafe</label></a>  
             <!-- <img src="assets/logo.png" alt="BabySafe"> -->
         </div>
         <div class="nav-links">
@@ -29,11 +29,13 @@ session_start();
         <div class="nav-btns">
             <ul>
                 <li>
+                    <?php if(!isset($_SESSION['id'])): ?>
                     <a href="/Babysafe/auth/register.php"><button class="nav-register">Register</button></a>
                 </li>
                 <li>
                     <a href="/Babysafe/auth/login.php"><button class="nav-login">Login</button></a>
                 </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>

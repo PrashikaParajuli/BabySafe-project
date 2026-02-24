@@ -66,6 +66,24 @@ body {
 .sidebar-menu li a:hover {
     background-color: #22505f;
     border-left: 4px solid #fff;
+    color: #fff;
+}
+
+.sidebar-menu li a.active {
+    background-color: #fff;
+    color: #1f3f4b;
+    border-left: 4px solid #1f3f4b;
+    font-weight: 600;
+    transform: translateX(4px);
+}
+
+.sidebar-menu li a.active i {
+    color: #1f3f4b;
+}
+
+.sidebar-menu li a.active:hover {
+    background-color: #e6e6e6;
+    color: #1f3f4b;
 }
 
 /* ================= MAIN CONTENT ================= */
@@ -187,16 +205,59 @@ table tr:hover {
     transition: background 0.2s ease;
 }
 
-.accept {
-    background-color: #28a745;
-}
-.accept:hover {
-    background-color: #218838;
+/* ================= CHILDREN TABLE & ACTION BUTTONS ================= */
+.table-container img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-.reject {
-    background-color: #dc3545;
+/* Status badges specifically for children */
+.status.pending {
+    background-color: #fff3cd;
+    color: #856404;
 }
-.reject:hover {
+
+.status.approved {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status.rejected {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Action buttons for admin approve/reject */
+.btn-approve, .btn-reject {
+    padding: 5px 10px;
+    font-size: 13px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+/* Approve button */
+.btn-approve {
+    background-color: #28a745;
+    color: #fff;
+    margin-right: 5px;
+}
+
+.btn-approve:hover {
+    background-color: #218838;
+   
+}
+
+/* Reject button */
+.btn-reject {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-reject:hover {
     background-color: #c82333;
 }

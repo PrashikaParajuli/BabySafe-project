@@ -1,0 +1,167 @@
+/* ================= COMPACT FORM ================= */
+.form-container {
+    margin-left: 20px; /* slightly more than sidebar width to align nicely */
+    padding: 25px 30px;
+    width: calc(100% - 260px);
+    background-color: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Form heading */
+.form-container h2 {
+    font-size: 20px;
+    color: #1f3f4b;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* Form row - two fields per row */
+.form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f3f4b;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #1f3f4b;
+    box-shadow: 0 0 6px rgba(31,63,75,0.15);
+}
+
+/* Submit button */
+.form-container .btn {
+    width: fit-content;
+    padding: 10px 20px;
+    margin-top: 5px;
+    font-size: 14px;
+    background-color: #1f3f4b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.form-container .btn:hover {
+    background-color: #22505f;
+}
+
+/* ================= TABLE ================= */
+.table-container {
+    margin-left: 20px; /* align with form */
+    margin-top: 10px;
+    padding: 20px 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    overflow-x: auto;
+}
+
+.table-container h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #1f3f4b;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.table-container table th, 
+.table-container table td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.table-container table th {
+    background-color: #f0f2f5;
+    font-weight: 600;
+    color: #1f3f4b;
+}
+
+.table-container table tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table-container table tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* error message */
+.error-message {
+    background: #ffe6e6;
+    color: #cc0000;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* ================= STATUS BADGES ================= */
+.status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.accepted {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.rejected {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* edit back btn */
+.back-link {
+    text-decoration: none;
+    color: #1f3f4b;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.back-link:hover {
+    color: #22505f;
+}

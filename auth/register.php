@@ -66,7 +66,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 $result = mysqli_query($conn, $sql);
                 
                 if($result){
-                    //echo "Account created successfully";
+                    header("Location: login.php" );
                 }else{
                     echo "Insert failed: " . mysqli_error($conn);
                 }
