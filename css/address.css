@@ -1,0 +1,72 @@
+form {
+    max-width: 900px;
+    margin: 20px auto;
+    background: #fdfdfd;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+h2, h3 {
+    color: #1f3f4b;
+    font-weight: 600;
+}
+
+.input-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.input-field.small {
+    flex: 1;
+}
+
+.input-field.full-width {
+    flex: 1 1 100%;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+input, select {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    outline: none;
+}
+
+input:focus, select:focus {
+    border-color: #1f3f4b;
+    box-shadow: 0 0 6px rgba(31,63,75,0.15);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #1f3f4b;
+    color: white;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #22505f;
+}
+
+.checkbox-field {
+    margin: 15px 0;
+}

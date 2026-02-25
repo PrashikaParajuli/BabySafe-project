@@ -1,21 +1,26 @@
 <?php
 session_start();
-if(!isset($_SESSION['id'])){
+
+if(!isset($_SESSION['id']) || $_SESSION['role']!=='parent'){
     header("Location: /Babysafe/auth/login.php");
     exit;
-
 }
+
+
+$id = $_SESSION['id'];
+$page='Verification';
+require('../../../includes/parent_panel.php');
+
 $errors = [];
 require_once '../../../config/connection.php';
 if($_SERVER['REQUEST_METHOD']=='POST'){
-    $name = trim($_POST['name'] ?? '');
-    $dob = trim($_POST['dob'] ?? '');
-    $occupation = trim($_POST['occupation'] ?? '');
-    $spouse = $_POST['spouse'] ?? '';
-    $age = trim($_POST['age'] ?? '');
-    $phone = trim($_POST['phone'] ?? '');
-    $gender = $_POST['gender'] ?? '';
-
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $dob = mysqli_real_escape_string($conn, $_POST['dob']);
+    $age = mysqli_real_escape_string($conn, $_POST['age']);
+    $occupation = mysqli_real_escape_string($conn, $_POST['occupation']);
+    $spouse = mysqli_real_escape_string($conn, $_POST['spouse']);
+    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+   
 
     // Validation
     if(empty($name)){ 
@@ -42,12 +47,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $errors['age'] = "Age must be a number";
     }
 
-    if(empty($phone)){
-        $errors['phone'] = "Phone number is required";
-    }
-    if(!empty($phone) && !preg_match('/^\d{10}$/', $phone)){
-        $errors['phone'] = "Phone must be 10 digits";
-    }
     if(empty($gender)){
         $errors['gender'] = "Gender is required";
     }
@@ -64,147 +63,80 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $phone = mysqli_real_escape_string($conn, $phone);
         $gender = mysqli_real_escape_string($conn, $gender);
 
-        $sql = "INSERT INTO parents ( name, dob, occupation, age, phone, gender) 
-                VALUES ('$name', '$dob', '$occupation', '$age', '$phone', '$gender')";
-
-        if(mysqli_query($conn, $sql)) {
+        if(empty($errors)) {
             $_SESSION['parents'] = [
                 'name' => $name,
                 'dob' => $dob,
                 'occupation' => $occupation,
                 'spouse' => $spouse,
                 'age' => $age,
-                'phone' => $phone,
                 'gender' => $gender
             ];
             header("Location: /babysafe/auth/is_auth/address.php");
             exit;
-        } else {
-            $errors['database'] = "Failed to save data: " . mysqli_error($conn);
-        }
+        } 
     }
 
 
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verification | BabySafe</title>
-    <link rel="stylesheet" href="/babysafe/css/admin/form.css">
-</head>
-<body>
-    <!-- Step 1 of Verification -->
+
+<div class="main-content">
+
+<div class="form-container">
     <h2>Personal Information</h2>
-    <form  method="post" id="verificationPersonal">
-        <div class="input-field">
-            <label for="name">Full Name
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" name="name" id="name" value="<?= htmlspecialchars($name ?? '') ?>" placeholder="Full Name"><br>
-            <!-- This is for JS errors -->
-            <p class="errors" id="nameError"></p>
-
-            <!-- This is for PHP server-side errors -->
-            <?php if (isset($errors['name'])): ?>
-            <p class="errors"><?php echo $errors['name'] ; ?></p>
-            <?php endif; ?>
+    <form method="POST" id="personalForm">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Name <span class="required">*</span></label>
+                <input type="text" name="name" value="<?= htmlspecialchars($name ?? '') ?>" required placeholder="Full Name">
+                <?php if(isset($errors['name'])): ?><p class="error-message"><?= $errors['name'] ?></p><?php endif; ?>
+            </div>
+            <div class="form-group">
+                <label>Date of Birth <span class="required">*</span></label>
+                <input type="date" name="dob" value="<?= htmlspecialchars($dob ?? '') ?>">
+                <?php if(isset($errors['dob'])): ?><p class="error-message"><?= $errors['dob'] ?></p><?php endif; ?>
+            </div>
         </div>
 
-        <div class="input-field">
-            <label for="dob">Date of Birth
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" name="dob" id="dob" value="<?= htmlspecialchars($dob ?? '') ?>" placeholder="2050-5-8"><br>
-            <!-- This is for JS errors -->
-            <p class="errors" id="dobError"></p>
-
-            <!-- This is for PHP server-side errors -->
-            <?php if (isset($errors['dob'])): ?>
-            <p class="errors"><?php echo $errors['dob'] ; ?></p>
-            <?php endif; ?>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Occupation <span class="required">*</span></label>
+                <input type="text" name="occupation" value="<?= htmlspecialchars($occupation ?? '') ?>" placeholder="Doctor">
+                <?php if(isset($errors['occupation'])): ?><p class="error-message"><?= $errors['occupation'] ?></p><?php endif; ?>
+            </div>
+            <div class="form-group">
+                <label>Spouse (optional)</label>
+                <input type="text" name="spouse" value="<?= htmlspecialchars($spouse ?? '') ?>" placeholder="Spouse Name">
+            </div>
         </div>
 
-        <div class="input-field">
-            <label for="occupation">Occupation
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" name="occupation" id="occupation" value="<?= htmlspecialchars($occupation ?? '') ?>" placeholder="Doctor"><br>
-            <!-- This is for JS errors -->
-            <p class="errors" id="occupationError"></p>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Age <span class="required">*</span></label>
+                <input type="text" name="age" value="<?= htmlspecialchars($age ?? '') ?>" placeholder="35">
+                <?php if(isset($errors['age'])): ?><p class="error-message"><?= $errors['age'] ?></p><?php endif; ?>
+            </div>
 
-            <!-- This is for PHP server-side errors -->
-            <?php if (isset($errors['occupation'])): ?>
-            <p class="errors"><?php echo $errors['occupation'] ; ?></p>
-            <?php endif; ?>
+            <div class="form-group">
+               <?php $gender = htmlspecialchars($gender ?? ''); ?>
+
+            <label>Gender <span class="required">*</span></label>
+            <select name="gender">
+                <option value="">Select Gender</option>
+                <option value="male" <?= $gender === 'male' ? 'selected' : '' ?>>Male</option>
+                <option value="female" <?= $gender === 'female' ? 'selected' : '' ?>>Female</option>
+                <option value="other" <?= $gender === 'other' ? 'selected' : '' ?>>Other</option>
+            </select>
+                <?php if(isset($errors['gender'])): ?><p class="error-message"><?= $errors['gender'] ?></p><?php endif; ?>
+            </div>
         </div>
 
-        <div class="input-field">
-            <label for="spouse">Spouse(optional)</label><br>
-            <input type="text" name="spouse" id="spouse">
-        </div>
-
-        <div class="input-field">
-            <label for="age">Age
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" name="age" value="<?= htmlspecialchars($age ?? '') ?>" placeholder="35"><br>
-            <!-- This is for JS errors -->
-            <p class="errors" id="ageError"></p>
-
-            <!-- This is for PHP server-side errors -->
-            <?php if (isset($errors['age'])): ?>
-            <p class="errors"><?php echo $errors['age'] ; ?></p>
-            <?php endif; ?>
-        </div>
-
-        <div class="input-field">
-            <label for="phone">Phone
-                <span class="required">*</span>
-            </label><br>
-            <input type="number" name="phone" value="<?= htmlspecialchars($phone ?? '') ?>" placeholder="9800000000" >
-            <!-- This is for JS errors -->
-            <p class="errors" id="phoneError"></p>
-
-            <!-- This is for PHP server-side errors -->
-            <?php if (isset($errors['phone'])): ?>
-            <p class="errors"><?php echo $errors['phone'] ; ?></p>
-            <?php endif; ?>
-        </div>
-
-        <div class="input-field">
-            <label>Gender</label><br>
-
-            <input type="radio" id="male" name="gender" value="male">Male
-            
-
-            <input type="radio" id="female" name="gender" value="female">Female
-            
-
-            <input type="radio" id="other" name="gender" value="other">Others
-            
-            <!-- This is for JS errors -->
-            <p class="errors" id="genderError"></p>
-
-            <!-- This is for PHP server-side errors -->
-            <?php if (isset($errors['gender'])): ?>
-            <p class="errors"><?php echo $errors['gender'] ; ?></p>
-            <?php endif; ?>
-        </div>
-
-        <!-- Back button -->
-         <div>
-            <button type="button" onclick="history.back()">Back</button>
-        </div>
-
-        <!-- Next button --> 
-        <div>
-            <button type="submit">Next</button>
-        </div>
-        
+        <a href="address.php"><button class="btn">Next</button></a>
     </form>
+</div>
+
+</div>
 
     <script>
         document.getElementById("verificationPersonal").onsubmit = function () {
@@ -214,7 +146,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             var dob = document.getElementById("dob").value;
             var occupation = document.getElementById("occupation").value;
             var age = document.getElementById("age").value;
-            var phone = document.getElementById("phone").value;
+            
 
             // gender (radio button)
             var male = document.getElementById("male").checked;
@@ -226,7 +158,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             document.getElementById("dobError").innerHTML = "";
             document.getElementById("occupationError").innerHTML = "";
             document.getElementById("ageError").innerHTML = "";
-            document.getElementById("phoneError").innerHTML = "";
             document.getElementById("genderError").innerHTML = "";
 
             var hasError = false;
@@ -252,18 +183,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             // age check
             if (age == "") {
                 document.getElementById("ageError").innerHTML = "Age is required";
-                hasError = true;
-            }
-
-            // phone check
-            if (phone == "") {
-                document.getElementById("phoneError").innerHTML = "Phone number is required";
-                hasError = true;
-            }
-
-            // phone length
-            if (phone != "" && phone.toString().length != 10) {
-                document.getElementById("phoneError").innerHTML = "Phone must be 10 digits";
                 hasError = true;
             }
 

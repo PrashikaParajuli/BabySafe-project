@@ -2,6 +2,7 @@
 require '../config/connection.php';
 session_start();
 
+// Only allow logged-in parents
 if(!isset($_SESSION['id']) || $_SESSION['role']!=='parent'){
     header("Location: /Babysafe/auth/login.php");
     exit;
@@ -21,14 +22,14 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
     $end_time = mysqli_real_escape_string($conn, $_POST['end_time']);
 
-    // Simple validation
+    // Validate date/time
     if(strtotime($end_date.' '.$end_time) <= strtotime($start_date.' '.$start_time)){
         $error = "End date/time must be after start date/time.";
     }
 
     if(empty($error)){
         $query = "INSERT INTO books (child_id, sitter_id, start_date, start_time, end_date, end_time, status)
-                  VALUES ('$child_id','$sitter_id','$start_date','$start_time','$end_date','$end_time','pending')";
+                  VALUES ('$child_id','$sitter_id','$start_date','$start_time','$end_date','$end_time',0)";
         mysqli_query($conn, $query);
         header("Location: booking.php");
         exit;
@@ -39,7 +40,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 $children_result = mysqli_query($conn, "SELECT * FROM children WHERE parent_id = $id AND status='approved'");
 $children = mysqli_fetch_all($children_result, MYSQLI_ASSOC);
 
-// Fetch all sitters (approved)
+// Fetch approved sitters
 $sitters_result = mysqli_query($conn, "SELECT * FROM sitters WHERE is_verified=1 AND status=1");
 $sitters = mysqli_fetch_all($sitters_result, MYSQLI_ASSOC);
 
@@ -53,13 +54,20 @@ $bookings_result = mysqli_query($conn, "
     ORDER BY b.start_date DESC
 ");
 $bookings = mysqli_fetch_all($bookings_result, MYSQLI_ASSOC);
+
+// Map numeric status to text
+$status_map = [
+    0 => 'pending',
+    1 => 'accepted',
+    2 => 'rejected'
+];
 ?>
 
 <div class="main-content">
 
     <div class="form-container">
         <?php if(!empty($error)): ?>
-        <div class="error-message"><?= $error ?></div>
+        <div class="error-message"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
         <h2>Book a Sitter</h2>
@@ -128,22 +136,20 @@ $bookings = mysqli_fetch_all($bookings_result, MYSQLI_ASSOC);
             </thead>
             <tbody>
                 <?php foreach($bookings as $index => $b): ?>
+                <?php
+                    $start_datetime = date("d M Y, h:i A", strtotime($b['start_date'].' '.$b['start_time']));
+                    $end_datetime = date("d M Y, h:i A", strtotime($b['end_date'].' '.$b['end_time']));
+                    $status_text = $status_map[$b['status']] ?? 'unknown';
+                ?>
                 <tr>
                     <td><?= $index+1 ?></td>
                     <td><?= htmlspecialchars($b['child_name']) ?></td>
                     <td><?= htmlspecialchars($b['sitter_name']) ?></td>
-                    <td><?= htmlspecialchars($b['start_date'].' '.$b['start_time']) ?></td>
-                    <td><?= htmlspecialchars($b['end_date'].' '.$b['end_time']) ?></td>
+                    <td><?= htmlspecialchars($start_datetime) ?></td>
+                    <td><?= htmlspecialchars($end_datetime) ?></td>
+                    <td><span class="status <?= $status_text ?>"><?= ucfirst($status_text) ?></span></td>
                     <td>
-                        <?php 
-                            $status_class='pending';
-                            if($b['status']=='accepted') $status_class='accepted';
-                            if($b['status']=='rejected') $status_class='rejected';
-                        ?>
-                        <span class="status <?= $status_class ?>"><?= ucfirst($b['status']) ?></span>
-                    </td>
-                    <td>
-                        <?php if($b['status']=='pending'): ?>
+                        <?php if($status_text=='pending'): ?>
                             <a href="edit_booking.php?id=<?= $b['id'] ?>" class="edit-btn">Edit</a>
                             <a href="cancel_booking.php?id=<?= $b['id'] ?>" class="cancel-btn" onclick="return confirm('Cancel this booking?')">Cancel</a>
                         <?php else: ?>
@@ -159,3 +165,10 @@ $bookings = mysqli_fetch_all($bookings_result, MYSQLI_ASSOC);
         <?php endif; ?>
     </div>
 </div>
+
+<style>
+/* Simple styling for status labels */
+.status.pending { color: orange; font-weight: bold; }
+.status.accepted { color: green; font-weight: bold; }
+.status.rejected { color: red; font-weight: bold; }
+</style>

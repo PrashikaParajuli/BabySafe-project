@@ -1,94 +1,94 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family:'Times New Roman', Times, serif;
-    box-sizing: border-box;
-}
-body{
-    font-size: 14px;
-    background: #f2f2f2;
-}
-
-/* Form container */
-form {
-    width: 700px;
-    margin: 50px auto;
-    background-color: #fff;
+/* ================= FORM CONTAINER ================= */
+.form-container {
+    margin-left: 20px;
     padding: 25px 30px;
+    width: calc(100% - 260px);
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ================= HEADING ================= */
+.form-container h2 {
+    font-size: 20px;
+    color: #1f3f4b;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* ================= ROW ================= */
+.form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* ================= FORM GROUP ================= */
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ================= LABEL ================= */
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f3f4b;
+    margin-bottom: 6px;
+}
+
+/* ================= INPUT & SELECT ================= */
+.form-group input,
+.form-group select {
+    padding: 8px 10px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s ease;
+    background: #f9fafb;
 }
 
-
-/* Form heading */
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #1f3f4b;
+    box-shadow: 0 0 5px rgba(31, 63, 75, 0.2);
+    background: #ffffff;
+}
+.form-row .form-group {
+    min-width: 200px;
 }
 
-/* Input field container */
-.input-field {
-    margin-bottom: 15px;
-}
-
-/* Labels */
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-/* Inputs and selects */
-input[type="text"],
-input[type="number"],
-input[type="date"]
- {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-/* Buttons */
-button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    gap: 10px;
+/* ================= BUTTON ================= */
+.btn {
+    width: fit-content;
+    padding: 8px 18px;
+    margin-top: 5px;
+    font-size: 14px;
     background-color: #1f3f4b;
-    color: #fff;
+    color: #ffffff;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 8px;
     cursor: pointer;
-}
-a {
-    text-decoration: none;
+    transition: 0.2s ease;
 }
 
-button:hover {
-    background-color: #22505f;
+.btn:hover {
+    background-color: #244f5e;
 }
 
-/* Error messages */
-.errors {
-    color: red;
+/* ================= ERROR MESSAGE ================= */
+.error-message {
     font-size: 13px;
-    margin-top: 3px;
+    color: #d00000;
+    margin-top: 5px;
 }
 
-/* Required asterisk */
+/* ================= REQUIRED STAR ================= */
 .required {
-    color: red;
-}
-
-/* Back button smaller */
-button[type="button"] {
-    background-color: black;
-    color:#fff;
-}
-button[type="button"]:hover{
-    background-color: #333;
+    color: #d00000;
 }

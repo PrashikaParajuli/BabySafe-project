@@ -1,0 +1,100 @@
+/* ================= RESET ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.doc-title {
+    font-size: 22px;
+    color: #1f3f4b;
+    margin-bottom: 20px;
+}
+
+/* ================= FORM CONTAINER ================= */
+.doc-form {
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ================= INPUT FIELD ================= */
+.doc-input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.doc-input-field label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f3f4b;
+}
+
+.doc-input-field select,
+.doc-input-field input[type="file"] {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.doc-input-field select:focus,
+.doc-input-field input[type="file"]:focus {
+    border-color: #1f3f4b;
+    box-shadow: 0 0 6px rgba(31,63,75,0.15);
+}
+
+/* ================= CONDITIONAL DIVS ================= */
+.doc-front-back,
+.doc-passport {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ================= ERROR MESSAGES ================= */
+.doc-error {
+    background: #ffe6e6;
+    color: #cc0000;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+/* ================= BUTTONS ================= */
+.doc-btn {
+    width: fit-content;
+    padding: 10px 20px;
+    background-color: #1f3f4b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+    margin-top: 10px;
+}
+
+.doc-btn:hover {
+    background-color: #22505f;
+}
+
+/* ================= BACK BUTTON ================= */
+.doc-back-btn {
+    background-color: #cbd5e1;
+    color: #1f3f4b;
+}
+
+.doc-back-btn:hover {
+    background-color: #a1b2bb;
+}

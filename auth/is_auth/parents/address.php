@@ -1,210 +1,193 @@
 <?php
 session_start();
-if(!isset($_SESSION['id'])){
+
+if(!isset($_SESSION['id']) || $_SESSION['role']!=='parent'){
     header("Location: /Babysafe/auth/login.php");
     exit;
-
 }
+
+$id = $_SESSION['id'];
+$page='Verification';
+require('../../../includes/parent_panel.php');
+
 $errors = [];
-require_once '../../../config/connection.php';
-if($_SERVER['REQUEST_METHOD']=='POST'){
-    $p_province =  mysqli_real_escape_string($conn, $_POST['p_province' ?? '']);
-    $p_district =  mysqli_real_escape_string($conn, $_POST['p_district' ?? '']);
-    $p_city =  mysqli_real_escape_string($conn, $_POST['p_city' ?? '']);
-    $p_ward =  mysqli_real_escape_string($conn, $_POST['p_ward' ?? '']);
-    $p_tole =  mysqli_real_escape_string($conn, $_POST['p_tole' ?? '']);
-    $t_province =  mysqli_real_escape_string($conn, $_POST['t_province' ?? '']);
-    $t_district =  mysqli_real_escape_string($conn, $_POST['t_district' ?? '']);
-    $t_city =  mysqli_real_escape_string($conn, $_POST['t_city' ?? '']);
-    $t_ward =  mysqli_real_escape_string($conn, $_POST['t_ward' ?? '']);
-    $t_tole =  mysqli_real_escape_string($conn, $_POST['t_tole' ?? '']);
 
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    if (empty($p_province)) {
-    $errors['p_province'] = "Province is required";
-    }
+    $_SESSION['address'] = [
+        'p_province' => $_POST['p_province'] ?? '',
+        'p_district' => $_POST['p_district'] ?? '',
+        'p_city'     => $_POST['p_city'] ?? '',
+        'p_ward'     => $_POST['p_ward'] ?? '',
+        'p_tole'     => $_POST['p_tole'] ?? '',
+        't_province' => $_POST['t_province'] ?? '',
+        't_district' => $_POST['t_district'] ?? '',
+        't_city'     => $_POST['t_city'] ?? '',
+        't_ward'     => $_POST['t_ward'] ?? '',
+        't_tole'     => $_POST['t_tole'] ?? ''
+    ];
 
-    if (empty($p_district)) {
-    $errors['p_district'] = "District is required";
-    }
-
-    if (empty($p_city)) {
-    $errors['p_city'] = "City is required";
-    }
-
-    if (empty($p_ward)) {
-    $errors['p_ward'] = "Ward is required";
-    }
-
-    if (empty($p_tole)) {
-    $errors['p_tole'] = "Tole is required";
-    }
-
-    if (empty($t_province)) {
-    $errors['t_province'] = "Province is required";
-    }
-
-    if (empty($t_district)) {
-    $errors['t_district'] = "District is required";
-    }
-
-    if (empty($t_city)) {
-    $errors['t_city'] = "City is required";
-    }
-
-    if (empty($t_ward)) {
-    $errors['t_ward'] = "Ward is required";
-    }
-
-    if (empty($t_tole)) {
-    $errors['t_tole'] = "Tole is required";
-    }
-
-    if(empty($errors)){
-        $id = $_SESSION['id'];
-        $sql = "INSERT INTO parents(
-        p_province, p_district, p_city, p_ward, p_tole,
-        t_province, t_district, t_city, t_ward, t_tole
-    ) VALUES (
-        '$p_province', '$p_district', '$p_city', '$p_ward', '$p_tole',
-        '$t_province', '$t_district', '$t_city', '$t_ward', '$t_tole'
-    )";
-
-    if (mysqli_query($conn, $sql)) {
-        header("Location: document.php");
-        exit;
-    } else {
-        echo "Database error: " . mysqli_error($conn);
-    }
-    }
+    header("Location: document.php"); // change later
+    exit();
 }
 
+$address = $_SESSION['address'] ?? [];
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Address | BabySafe</title>
-    <link rel="stylesheet" href="/babysafe/css/admin/form.css">
-</head>
-<body>
-    <h2>Address Information</h2>
-    <form method="POST">
-        <h3>Permanant Address</h3>
+<h2>Address Information</h2>
 
-        <div class="input-field">
-            <label for="p_province">Province
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" id="p_province" name="p_province" value="<?= htmlspecialchars($p_province ?? '') ?>">
-            <?php if (isset($errors['p_province'])): ?>
-            <p class="errors"><?php echo $errors['p_province'] ; ?></p>
-            <?php endif; ?>
+<form method="POST">
+
+    <h3>Permanent Address</h3>
+
+    <!-- Province + District -->
+    <div class="input-row">
+        <div class="input-field small">
+            <label>Province <span class="required">*</span></label>
+            <select name="p_province" required>
+                <option value="">Select Province</option>
+                <option value="koshi">Koshi</option>
+                <option value="madhesh">Madhesh</option>
+                <option value="bagmati">Bagmati</option>
+                <option value="gandaki">Gandaki</option>
+                <option value="lumbini">Lumbini</option>
+                <option value="karnali">Karnali</option>
+                <option value="sudurpashchim">Sudurpashchim</option>
+            </select>
         </div>
 
-        <div class="input-field">
-            <label for="p_district">District
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" id="p_district" name="p_district" value="<?= htmlspecialchars($p_district ?? '') ?>">
-            <?php if (isset($errors['p_district'])): ?>
-            <p class="errors"><?php echo $errors['p_district'] ; ?></p>
-            <?php endif; ?>
+        <div class="input-field small">
+            <label>District <span class="required">*</span></label>
+            <select name="p_district" required>
+                <option value="">Select District</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- City + Ward + Tole -->
+    <div class="input-row">
+        <div class="input-field small">
+            <label>City <span class="required">*</span></label>
+            <input type="text" name="p_city" required>
+        </div>
+        <div class="input-field small">
+            <label>Ward No <span class="required">*</span></label>
+            <input type="number" name="p_ward" required>
+        </div>
+        <div class="input-field small">
+            <label>Tole <span class="required">*</span></label>
+            <input type="text" name="p_tole" required>
+        </div>
+    </div>
+
+    <div class="checkbox-field">
+        <label>
+            <input type="checkbox" id="sameAddress">
+            Temporary Address same as Permanent
+        </label>
+    </div>
+
+    <h3>Temporary Address</h3>
+
+    <!-- Province + District -->
+    <div class="input-row">
+        <div class="input-field small">
+            <label>Province</label>
+            <select name="t_province">
+                <option value="">Select Province</option>
+                <option value="koshi">Koshi</option>
+                <option value="madhesh">Madhesh</option>
+                <option value="bagmati">Bagmati</option>
+                <option value="gandaki">Gandaki</option>
+                <option value="lumbini">Lumbini</option>
+                <option value="karnali">Karnali</option>
+                <option value="sudurpashchim">Sudurpashchim</option>
+            </select>
         </div>
 
-        <div class="input-field">
-            <label for="p_city">City
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" id="p_city" name="p_city" value="<?= htmlspecialchars($p_city ?? '') ?>">
-            <?php if (isset($errors['p_city'])): ?>
-            <p class="errors"><?php echo $errors['p_city'] ; ?></p>
-            <?php endif; ?>
+        <div class="input-field small">
+            <label>District</label>
+            <select name="t_district">
+                <option value="">Select District</option>
+            </select>
         </div>
+    </div>
 
-        <div class="input-field">
-            <label for="p_ward">Ward No.
-                <span class="required">*</span>
-            </label><br>
-            <input type="number" id="p_ward" name="p_ward" value="<?= htmlspecialchars($p_ward ?? '') ?>">
-            <?php if (isset($errors['p_ward'])): ?>
-            <p class="errors"><?php echo $errors['p_ward'] ; ?></p>
-            <?php endif; ?>
+    <!-- City + Ward + Tole -->
+    <div class="input-row">
+        <div class="input-field small">
+            <label>City</label>
+            <input type="text" name="t_city">
         </div>
+        <div class="input-field small">
+            <label>Ward No</label>
+            <input type="number" name="t_ward">
+        </div>
+        <div class="input-field small">
+            <label>Tole</label>
+            <input type="text" name="t_tole">
+        </div>
+    </div>
 
-        <div class="input-field">
-            <label for="p_tole">Tole
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" id="p_tole" name="p_tole" value="<?= htmlspecialchars($p_tole ?? '') ?>">
-            <?php if (isset($errors['p_tole'])): ?>
-            <p class="errors"><?php echo $errors['p_tole'] ; ?></p>
-            <?php endif; ?>
-        </div>
+    <br>
+    <button type="submit">Next</button>
 
-        <h3>Temporary Address</h3>
-        <div class="input-field">
-            <label for="t_province">Province
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" id="t_province" name="t_province" value="<?= htmlspecialchars($t_province ?? '') ?>">
-            <?php if (isset($errors['t_province'])): ?>
-            <p class="errors"><?php echo $errors['t_province'] ; ?></p>
-            <?php endif; ?>
-        </div>
+</form>
 
-        <div class="input-field">
-            <label for="t_district">District
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" id="t_district" name="t_district" value="<?= htmlspecialchars($t_district ?? '') ?>">
-            <?php if (isset($errors['t_district'])): ?>
-            <p class="errors"><?php echo $errors['t_district'] ; ?></p>
-            <?php endif; ?>
-        </div>
+<script>
+const districts = {
+    koshi:["Bhojpur","Dhankuta","Ilam","Jhapa","Morang","Sunsari"],
+    madhesh:["Bara","Dhanusha","Parsa","Rautahat","Saptari"],
+    bagmati:["Kathmandu","Bhaktapur","Lalitpur","Chitwan"],
+    gandaki:["Kaski","Lamjung","Tanahun","Gorkha"],
+    lumbini:["Rupandehi","Dang","Banke","Kapilvastu"],
+    karnali:["Surkhet","Jumla","Dolpa","Humla"],
+    sudurpashchim:["Kailali","Kanchanpur","Doti","Bajura"]
+};
 
-        <div class="input-field">
-            <label for="t_city">City
-                <span class="required">*</span>
-            </label><br>
-            <input type="text"  id="t_city" name="t_city" value="<?= htmlspecialchars($t_city ?? '') ?>">
-            <?php if (isset($errors['t_city'])): ?>
-            <p class="errors"><?php echo $errors['t_city'] ; ?></p>
-            <?php endif; ?>
-        </div>
+function loadDistrict(provinceName,districtName){
+    let province = document.querySelector(`select[name="${provinceName}"]`).value;
+    let districtSelect = document.querySelector(`select[name="${districtName}"]`);
+    districtSelect.innerHTML = '<option value="">Select District</option>';
 
-        <div class="input-field">
-            <label for="t_ward">Ward No.
-                <span class="required">*</span>
-            </label><br>
-            <input type="number" id="t_ward"  name="t_ward" value="<?= htmlspecialchars($t_ward ?? '') ?>">
-            <?php if (isset($errors['t_ward'])): ?>
-            <p class="errors"><?php echo $errors['t_ward'] ; ?></p>
-            <?php endif; ?>
-        </div>
+    if(districts[province]){
+        districts[province].forEach(d=>{
+            let opt=document.createElement("option");
+            opt.value=d;
+            opt.textContent=d;
+            districtSelect.appendChild(opt);
+        });
+    }
+}
 
-        <div class="input-field">
-            <label for="t_tole">Tole
-                <span class="required">*</span>
-            </label><br>
-            <input type="text" id="t_tole" name="t_tole" value="<?= htmlspecialchars($t_tole ?? '') ?>">
-            <?php if (isset($errors['t_tole'])): ?>
-            <p class="errors"><?php echo $errors['t_tole'] ; ?></p>
-            <?php endif; ?>
-        </div>
+document.querySelector('select[name="p_province"]').addEventListener("change",function(){
+    loadDistrict("p_province","p_district");
+});
 
-        <!-- Back button -->
-         <div>
-            <button type="button" onclick="history.back()">Back</button>
-        </div>
+document.querySelector('select[name="t_province"]').addEventListener("change",function(){
+    loadDistrict("t_province","t_district");
+});
 
-        <!-- Next button --> 
-        <div>
-            <button type="submit">Next</button>
-        </div>
-        
-    </form>
+document.getElementById("sameAddress").addEventListener("change",function(){
+    if(this.checked){
+        document.querySelector('[name="t_province"]').value =
+        document.querySelector('[name="p_province"]').value;
+
+        loadDistrict("p_province","t_district");
+
+        document.querySelector('[name="t_district"]').value =
+        document.querySelector('[name="p_district"]').value;
+
+        document.querySelector('[name="t_city"]').value =
+        document.querySelector('[name="p_city"]').value;
+
+        document.querySelector('[name="t_ward"]').value =
+        document.querySelector('[name="p_ward"]').value;
+
+        document.querySelector('[name="t_tole"]').value =
+        document.querySelector('[name="p_tole"]').value;
+    }
+});
+</script>
 </body>
 </html>

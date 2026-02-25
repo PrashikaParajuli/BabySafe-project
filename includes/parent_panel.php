@@ -11,6 +11,8 @@ $current = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="/Babysafe/css/users/dashboard.css">
     <link rel="stylesheet" href="../css/users/children.css">
     <link rel="stylesheet" href="../css/users/booking.css">
+    <link rel="stylesheet" href="/babysafe/css/form.css">
+    <link rel="stylesheet" href="/Babysafe/css/address.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -27,32 +29,33 @@ $current = basename($_SERVER['PHP_SELF']);
 
         <ul class="sidebar-menu">
             <li>
-                <a href="dashboard.php" class="<?= $current=='dashboard.php'?'active':'' ?>">
+                <a href="/babysafe/parent/dashboard.php" class="<?= $current=='dashboard.php'?'active':'' ?>">
                     <i class="fas fa-home"></i> Dashboard
                 </a>
             </li>
 
             <li>
-                <a href="booking.php" class="<?= $current=='booking.php'?'active':'' ?>">
+                <a href="/babysafe/parent/booking.php" class="<?= $current=='booking.php'?'active':'' ?>">
                     <i class="fas fa-user-plus"></i> Book Sitter
                 </a>
             </li>
 
            <li>
-                <a href="children.php" 
+                <a href="/babysafe/parent/children.php" 
                 class="<?= ($current=='children.php' || $current=='edit_child.php') ? 'active' : '' ?>">
                     <i class="fas fa-child"></i> My Children
                 </a>
             </li>
 
              <li>
-                <a href="../auth/is_auth/parent/personal.php" class="<?= $current=='../auth/is_auth/parent/personal.php'?'active':'' ?>">
+                <a href="../auth/is_auth/parents/personal.php" 
+                class="<?= ($current=='personal.php' || $current=='address.php'|| $current=='document.php' )?'active':'' ?>">
                     <i class="fas fa-child"></i> Verification
                 </a>
             </li>
 
             <li>
-                <a href="review.php" class="<?= $current=='review.php'?'active':'' ?>">
+                <a href="/babysafe/parent/review.php" class="<?= $current=='review.php'?'active':'' ?>">
                     <i class="fas fa-star"></i> Reviews
                 </a>
             </li>

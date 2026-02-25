@@ -226,27 +226,26 @@ if (!$conn) {
 // }
 
 // //creating table for booking
-$sql ="CREATE TABLE IF NOT EXISTS books(
-    id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
-    start_date DATETIME NOT NULL,
-    start_time DATETIME NOT NULL,
-    end_date DATETIME DEFAULT NULL,
-    end_time DATETIME DEFAULT NULL,
-    status INT DEFAULT 2,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    sitter_id INT NOT NULL,
-    child_id INT NOT NULL,
-    FOREIGN KEY(sitter_id) REFERENCES sitters(id),
-    FOREIGN KEY(child_id) REFERENCES children(id),
-    CHECK (end_time > start_time)
+// $sql ="CREATE TABLE IF NOT EXISTS books(
+//     id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+//     start_date DATETIME NOT NULL,
+//     start_time DATETIME NOT NULL,
+//     end_date DATETIME DEFAULT NULL,
+//     end_time DATETIME DEFAULT NULL,
+//     status INT DEFAULT 2,
+//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+//     sitter_id INT NOT NULL,
+//     child_id INT NOT NULL,
+//     FOREIGN KEY(sitter_id) REFERENCES sitters(id),
+//     FOREIGN KEY(child_id) REFERENCES children(id)
 
- )";
-  if (mysqli_query($conn, $sql)) {
+//  )";
+//   if (mysqli_query($conn, $sql)) {
     //success
-} else {
+// } else {
     //error
-}
+// }
 
 // //creating table for review
 // $sql ="CREATE TABLE IF NOT EXISTS reviews(
