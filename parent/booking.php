@@ -14,7 +14,7 @@ require('../includes/parent_panel.php');
 $error = "";
 
 // Handle Add Booking Form
-if($_SERVER['REQUEST_METHOD']=='POST'){
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $child_id = mysqli_real_escape_string($conn, $_POST['child_id']);
     $sitter_id = mysqli_real_escape_string($conn, $_POST['sitter_id']);
     $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
@@ -22,14 +22,21 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
     $end_time = mysqli_real_escape_string($conn, $_POST['end_time']);
 
-    // Validate date/time
-    if(strtotime($end_date.' '.$end_time) <= strtotime($start_date.' '.$start_time)){
+    $start_datetime = strtotime($start_date.' '.$start_time);
+    $end_datetime   = strtotime($end_date.' '.$end_time);
+    $now = time();
+
+    // Validation
+    if($start_datetime < $now){
+        $error = "Start date/time cannot be in the past.";
+    } elseif($end_datetime <= $start_datetime){
         $error = "End date/time must be after start date/time.";
     }
 
     if(empty($error)){
-        $query = "INSERT INTO books (child_id, sitter_id, start_date, start_time, end_date, end_time, status)
-                  VALUES ('$child_id','$sitter_id','$start_date','$start_time','$end_date','$end_time',0)";
+        // Insert booking, status defaults to 'pending' in ENUM column
+        $query = "INSERT INTO books (child_id, sitter_id, start_date, start_time, end_date, end_time)
+                  VALUES ('$child_id','$sitter_id','$start_date','$start_time','$end_date','$end_time')";
         mysqli_query($conn, $query);
         header("Location: booking.php");
         exit;
@@ -51,23 +58,19 @@ $bookings_result = mysqli_query($conn, "
     JOIN children c ON b.child_id = c.id
     JOIN sitters s ON b.sitter_id = s.id
     WHERE c.parent_id = $id
-    ORDER BY b.start_date DESC
+    ORDER BY b.start_date DESC, b.start_time DESC
 ");
 $bookings = mysqli_fetch_all($bookings_result, MYSQLI_ASSOC);
-
-// Map numeric status to text
-$status_map = [
-    0 => 'pending',
-    1 => 'accepted',
-    2 => 'rejected'
-];
 ?>
+
+<!-- Include CSS -->
+<link rel="stylesheet" href="../css/booking.css">
 
 <div class="main-content">
 
     <div class="form-container">
         <?php if(!empty($error)): ?>
-        <div class="error-message"><?= htmlspecialchars($error) ?></div>
+            <div class="error-message"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
         <h2>Book a Sitter</h2>
@@ -121,7 +124,7 @@ $status_map = [
 
     <div class="table-container">
         <h3>My Bookings</h3>
-        <?php if(count($bookings)>0): ?>
+        <?php if(count($bookings) > 0): ?>
         <table>
             <thead>
                 <tr>
@@ -138,18 +141,23 @@ $status_map = [
                 <?php foreach($bookings as $index => $b): ?>
                 <?php
                     $start_datetime = date("d M Y, h:i A", strtotime($b['start_date'].' '.$b['start_time']));
-                    $end_datetime = date("d M Y, h:i A", strtotime($b['end_date'].' '.$b['end_time']));
-                    $status_text = $status_map[$b['status']] ?? 'unknown';
+                    $end_datetime   = date("d M Y, h:i A", strtotime($b['end_date'].' '.$b['end_time']));
+                    
+                    // Use ENUM value directly
+                    $status_text = strtolower(trim($b['status']));
+                    if(empty($status_text)) $status_text = 'pending';
                 ?>
                 <tr>
-                    <td><?= $index+1 ?></td>
+                    <td><?= $index + 1 ?></td>
                     <td><?= htmlspecialchars($b['child_name']) ?></td>
                     <td><?= htmlspecialchars($b['sitter_name']) ?></td>
-                    <td><?= htmlspecialchars($start_datetime) ?></td>
-                    <td><?= htmlspecialchars($end_datetime) ?></td>
-                    <td><span class="status <?= $status_text ?>"><?= ucfirst($status_text) ?></span></td>
+                    <td><?= $start_datetime ?></td>
+                    <td><?= $end_datetime ?></td>
                     <td>
-                        <?php if($status_text=='pending'): ?>
+                        <span class="status <?= $status_text ?>"><?= ucfirst($status_text) ?></span>
+                    </td>
+                    <td>
+                        <?php if($status_text == 'pending'): ?>
                             <a href="edit_booking.php?id=<?= $b['id'] ?>" class="edit-btn">Edit</a>
                             <a href="cancel_booking.php?id=<?= $b['id'] ?>" class="cancel-btn" onclick="return confirm('Cancel this booking?')">Cancel</a>
                         <?php else: ?>
@@ -165,10 +173,3 @@ $status_map = [
         <?php endif; ?>
     </div>
 </div>
-
-<style>
-/* Simple styling for status labels */
-.status.pending { color: orange; font-weight: bold; }
-.status.accepted { color: green; font-weight: bold; }
-.status.rejected { color: red; font-weight: bold; }
-</style>

@@ -11,6 +11,7 @@ $current = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="/Babysafe/css/users/dashboard.css">
     <link rel="stylesheet" href="../css/users/children.css">
     <link rel="stylesheet" href="../css/users/booking.css">
+    <link rel="stylesheet" href="../users/review.css">
     <link rel="stylesheet" href="/babysafe/css/form.css">
     <link rel="stylesheet" href="/Babysafe/css/address.css">
 
@@ -48,7 +49,7 @@ $current = basename($_SERVER['PHP_SELF']);
             </li>
 
              <li>
-                <a href="../auth/is_auth/parents/personal.php" 
+                <a href="/babysafe/auth/is_auth/parents/personal.php" 
                 class="<?= ($current=='personal.php' || $current=='address.php'|| $current=='document.php' )?'active':'' ?>">
                     <i class="fas fa-child"></i> Verification
                 </a>

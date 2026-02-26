@@ -6,7 +6,7 @@ if(!isset($_SESSION['id']) || $_SESSION['role'] !== 'sitter'){
     header("Location: /Babysafe/auth/login.php");
     exit;
 }
-
+require('../includes/sitter_panel.php');
 $id = $_SESSION['id'];
 
 /* SITTER INFO */
@@ -21,7 +21,7 @@ $booking_data = mysqli_fetch_assoc(
 
 /* PENDING BOOKINGS */
 $pending_data = mysqli_fetch_assoc(
-    mysqli_query($conn, "SELECT COUNT(*) AS pending FROM books WHERE sitter_id = $id AND status = 2")
+    mysqli_query($conn, "SELECT COUNT(*) AS pending FROM books WHERE sitter_id = $id AND status = 'pending'")
 );
 
 /* AVERAGE RATING */
@@ -46,63 +46,6 @@ $upcoming_result = mysqli_query($conn, "
     LIMIT 5
 ");
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Sitter Dashboard</title>
-
-    <!-- SITTER DASHBOARD CSS -->
-    <link rel="stylesheet" href="/Babysafe/css/users/dashboard.css">
-
-    <!-- FONT AWESOME ICONS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-
-<body>
-
-<div class="dashboard">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <h2>Sitter Panel</h2>
-        </div>
-
-        <ul class="sidebar-menu">
-            <li>
-                <a href="#">
-                    <i class="fas fa-home"></i> Dashboard
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    <i class="fas fa-calendar-check"></i> My Bookings
-                </a>
-            </li>
-
-            <li>
-                <a href="../auth/is_auth/sitters/personal.php">
-                    <i class="fas fa-user-check"></i> Verification
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    <i class="fas fa-star"></i> Reviews
-                </a>
-            </li>
-
-            <li>
-                <a href="../auth/logout.php">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            </li>
-        </ul>
-    </aside>
-
     <!-- MAIN CONTENT -->
     <main class="main-content">
 
@@ -116,7 +59,7 @@ $upcoming_result = mysqli_query($conn, "
                     <?php if($sitter['is_verified'] == 1){ ?>
                         <span class="badge verified">✔ Verified</span>
                     <?php } else { ?>
-                     <span class="badge not-verified">Not Verified</span>
+                        <span class="badge not-verified">Not Verified</span>
                     <?php } ?>
                     <span class="badge sitter"> Sitter</span>
                 </div>
@@ -151,27 +94,26 @@ $upcoming_result = mysqli_query($conn, "
                     <th>Action</th>
                 </tr>
 
-                <?php while($row = mysqli_fetch_assoc($upcoming_result)) { ?>
+                <?php while($row = mysqli_fetch_assoc($upcoming_result)) { 
+                    $status = strtolower($row['status'] ?? 'pending'); // ENUM value
+                    $status_class = [
+                        'pending'=>'pending',
+                        'accepted'=>'accepted',
+                        'rejected'=>'rejected'
+                    ][$status] ?? 'pending';
+                ?>
                 <tr>
-                    <td><?php echo $row['parent_name']; ?></td>
-                    <td><?php echo $row['child_name']; ?></td>
+                    <td><?php echo $status==='accepted' ? htmlspecialchars($row['parent_name']) : '-'; ?></td>
+                    <td><?php echo $status==='accepted' ? htmlspecialchars($row['child_name']) : '-'; ?></td>
                     <td><?php echo date("d M Y", strtotime($row['start_date'])); ?></td>
                     <td>
-                        <?php
-                        if($row['status'] == 2){
-                            echo "<span class='status pending'>Pending</span>";
-                        }elseif($row['status'] == 1){
-                            echo "<span class='status accepted'>Accepted</span>";
-                        }else{
-                            echo "<span class='status rejected'>Rejected</span>";
-                        }
-                        ?>
+                        <span class="status <?php echo $status_class; ?>"><?php echo ucfirst($status); ?></span>
                     </td>
                     <td>
-                        <?php if($row['status'] == 2){ ?>
-                            <a class="btn accept" href="update_booking.php?id=<?php echo $row['id']; ?>&status=1">Accept</a>
-                            <a class="btn reject" href="update_booking.php?id=<?php echo $row['id']; ?>&status=0">Reject</a>
-                        <?php } ?>
+                        <?php if($status==='pending'){ ?>
+                            <a class="btn accept" href="update_booking.php?id=<?php echo $row['id']; ?>&status=accepted">Accept</a>
+                            <a class="btn reject" href="update_booking.php?id=<?php echo $row['id']; ?>&status=rejected">Reject</a>
+                        <?php } else { echo '-'; } ?>
                     </td>
                 </tr>
                 <?php } ?>

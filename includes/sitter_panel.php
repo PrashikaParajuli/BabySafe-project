@@ -37,14 +37,6 @@ $current = basename($_SERVER['PHP_SELF']);
                 </a>
             </li>
 
-            <!-- Job Requests -->
-            <li>
-                <a href="/Babysafe/sitter/requests.php"
-                class="<?= $current=='requests.php'?'active':'' ?>">
-                    <i class="fas fa-briefcase"></i> Job Requests
-                </a>
-            </li>
-
             <!-- My Bookings -->
             <li>
                 <a href="/Babysafe/sitter/bookings.php"

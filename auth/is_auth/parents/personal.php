@@ -72,7 +72,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 'age' => $age,
                 'gender' => $gender
             ];
-            header("Location: /babysafe/auth/is_auth/address.php");
+           
+            header("Location: address.php");
             exit;
         } 
     }
@@ -85,7 +86,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 <div class="form-container">
     <h2>Personal Information</h2>
-    <form method="POST" id="personalForm">
+    <form method="POST" action="" id="personalForm">
         <div class="form-row">
             <div class="form-group">
                 <label>Name <span class="required">*</span></label>
@@ -132,14 +133,14 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             </div>
         </div>
 
-        <a href="address.php"><button class="btn">Next</button></a>
+        <button type="submit" class="btn">Next</button>
     </form>
 </div>
 
 </div>
 
     <script>
-        document.getElementById("verificationPersonal").onsubmit = function () {
+        document.getElementById("personalForm").onsubmit = function () {
 
             // get input values
             var name = document.getElementById("name").value;
@@ -149,9 +150,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             
 
             // gender (radio button)
-            var male = document.getElementById("male").checked;
-            var female = document.getElementById("female").checked;
-            var other = document.getElementById("other").checked;
+        var gender = document.querySelector("select[name='gender']").value;
+
+            if (gender == "") {
+                hasError = true;
+            }
 
             // clear old error messages
             document.getElementById("nameError").innerHTML = "";

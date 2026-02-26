@@ -2,69 +2,78 @@
 session_start();
 require '../config/connection.php';
 
-if(!isset($_SESSION['id']) || $_SESSION['role'] !== 'parent'){
+/* ================= SESSION CHECK ================= */
+if (!isset($_SESSION['id']) || strtolower($_SESSION['role']) !== 'parent') {
     header("Location: /Babysafe/auth/login.php");
     exit;
 }
 
 require('../includes/parent_panel.php');
-$id = $_SESSION['id'];
+$id = (int) $_SESSION['id'];
 
-/* PARENT INFO */
+/* ================= PARENT INFO ================= */
 $parent = mysqli_fetch_assoc(
     mysqli_query($conn, "SELECT * FROM parents WHERE id = $id")
 );
 
-/* TOTAL BOOKINGS */
+/* ================= TOTAL BOOKINGS ================= */
 $booking_data = mysqli_fetch_assoc(
-    mysqli_query($conn, "SELECT COUNT(*) AS total_bookings 
-                         FROM books b
-                         JOIN children c ON b.child_id = c.id
-                         WHERE c.parent_id = $id")
+    mysqli_query($conn, "
+        SELECT COUNT(*) AS total_bookings 
+        FROM books b
+        JOIN children c ON b.child_id = c.id
+        WHERE c.parent_id = $id
+    ")
 );
 
-/* PENDING BOOKINGS */
+/* ================= PENDING BOOKINGS ================= */
 $pending_data = mysqli_fetch_assoc(
-    mysqli_query($conn, "SELECT COUNT(*) AS pending 
-                         FROM books b
-                         JOIN children c ON b.child_id = c.id
-                         WHERE c.parent_id = $id AND b.status = 2")
+    mysqli_query($conn, "
+        SELECT COUNT(*) AS pending 
+        FROM books b
+        JOIN children c ON b.child_id = c.id
+        WHERE c.parent_id = $id AND b.status = 'pending'
+    ")
 );
 
-/* TOTAL CHILDREN */
+/* ================= TOTAL CHILDREN ================= */
 $children_data = mysqli_fetch_assoc(
-    mysqli_query($conn, "SELECT COUNT(*) AS total_children 
-                         FROM children WHERE parent_id = $id")
+    mysqli_query($conn, "
+        SELECT COUNT(*) AS total_children 
+        FROM children 
+        WHERE parent_id = $id
+    ")
 );
 
-/* RECENT BOOKINGS */
+/* ================= RECENT BOOKINGS ================= */
 $recent_result = mysqli_query($conn, "
     SELECT b.*, s.name AS sitter_name, c.name AS child_name
     FROM books b
     JOIN sitters s ON b.sitter_id = s.id
     JOIN children c ON b.child_id = c.id
     WHERE c.parent_id = $id
-    ORDER BY b.start_date DESC
+    ORDER BY b.start_date DESC, b.start_time DESC
     LIMIT 5
 ");
 ?>
 
-<!-- MAIN CONTENT -->
+<link rel="stylesheet" href="../css/booking.css">
+
 <main class="main-content">
 
     <!-- PROFILE CARD -->
     <div class="profile-card">
         <div class="left">
-            <img src="../uploads/<?php echo $parent['image'] ?? 'default.png'; ?>" class="avatar">
+            <img src="../uploads/<?= $parent['image'] ?? 'default.png'; ?>" class="avatar">
             <div>
-                <h2><?php echo $parent['name']; ?></h2>
-                <p><?php echo $parent['email']; ?></p>
+                <h2><?= htmlspecialchars($parent['name']) ?></h2>
+                <p><?= htmlspecialchars($parent['email']) ?></p>
 
-                <?php if($parent['is_verified'] == 1){ ?>
+                <?php if ($parent['is_verified'] == 1): ?>
                     <span class="badge verified">✔ Verified</span>
-                <?php } else { ?>
+                <?php else: ?>
                     <span class="badge not-verified">Not Verified</span>
-                <?php } ?>
+                <?php endif; ?>
 
                 <span class="badge parent">Parent</span>
             </div>
@@ -72,15 +81,15 @@ $recent_result = mysqli_query($conn, "
 
         <div class="stats">
             <div class="stat">
-                <h3><?= $booking_data['total_bookings']; ?></h3>
+                <h3><?= $booking_data['total_bookings'] ?? 0 ?></h3>
                 <p>Total Bookings</p>
             </div>
             <div class="stat">
-                <h3><?= $pending_data['pending']; ?></h3>
+                <h3><?= $pending_data['pending'] ?? 0 ?></h3>
                 <p>Pending</p>
             </div>
             <div class="stat">
-                <h3><?= $children_data['total_children']; ?></h3>
+                <h3><?= $children_data['total_children'] ?? 0 ?></h3>
                 <p>Children</p>
             </div>
         </div>
@@ -90,45 +99,57 @@ $recent_result = mysqli_query($conn, "
     <div class="table-container">
         <h3>Recent Bookings</h3>
 
+        <?php if (mysqli_num_rows($recent_result) > 0): ?>
         <table>
-            <tr>
-                <th>Sitter</th>
-                <th>Child</th>
-                <th>Start Date</th>
-                <th>Status</th>
-                <th>Review</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Sitter</th>
+                    <th>Child</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Status</th>
+                    <th>Review</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = mysqli_fetch_assoc($recent_result)): 
 
-            <?php while($row = mysqli_fetch_assoc($recent_result)) { ?>
-            <tr>
-                <td><?= $row['sitter_name']; ?></td>
-                <td><?= $row['child_name']; ?></td>
-                <td><?= date("d M Y", strtotime($row['start_date'])); ?></td>
-                <td>
-                    <?php
-                        if($row['status'] == 2)
-                            echo "<span class='status pending'>Pending</span>";
-                        elseif($row['status'] == 1)
-                            echo "<span class='status accepted'>Accepted</span>";
-                        else
-                            echo "<span class='status rejected'>Rejected</span>";
-                    ?>
-                </td>
-                <td>
-                    <?php if($row['status'] == 1){ ?>
-                        <a class="btn review" href="review.php?book_id=<?= $row['id']; ?>">
-                            Review
-                        </a>
-                    <?php } ?>
-                </td>
-            </tr>
-            <?php } ?>
+                    $status_text = strtolower(trim($row['status'] ?? 'pending'));
+                    if ($status_text == '') {
+                        $status_text = 'pending';
+                    }
+
+                    $start_datetime = date("d M Y, h:i A", strtotime($row['start_date'].' '.$row['start_time']));
+                    $end_datetime   = date("d M Y, h:i A", strtotime($row['end_date'].' '.$row['end_time']));
+                ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['sitter_name']) ?></td>
+                    <td><?= htmlspecialchars($row['child_name']) ?></td>
+                    <td><?= $start_datetime ?></td>
+                    <td><?= $end_datetime ?></td>
+
+                    <td>
+                        <span class="status <?= $status_text ?>">
+                            <?= ucfirst($status_text) ?>
+                        </span>
+                    </td>
+
+                    <td>
+                        <?php if ($status_text === 'accepted'): ?>
+                            <a class="btn review" href="review.php?book_id=<?= $row['id'] ?>">
+                                Give Review
+                            </a>
+                        <?php else: ?>
+                            -
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
         </table>
+        <?php else: ?>
+            <p>No bookings yet.</p>
+        <?php endif; ?>
     </div>
 
 </main>
-
-</div> <!-- dashboard -->
-
-</body>
-</html>

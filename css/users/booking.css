@@ -1,6 +1,6 @@
 /* ================= COMPACT FORM ================= */
 .form-container {
-    margin-left: 20px; /* align with sidebar */
+    margin-left: 20px;
     padding: 20px 25px;
     width: calc(100% - 260px);
     background-color: #fdfdfd;
@@ -9,7 +9,6 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    transition: all 0.3s ease;
 }
 
 .form-container h2 {
@@ -19,7 +18,6 @@
     margin-bottom: 15px;
 }
 
-/* Form row - two fields per row */
 .form-row {
     display: flex;
     gap: 15px;
@@ -55,7 +53,6 @@
     box-shadow: 0 0 6px rgba(31,63,75,0.15);
 }
 
-/* Submit button */
 .form-container .btn {
     width: fit-content;
     padding: 10px 20px;
@@ -75,7 +72,7 @@
 
 /* ================= TABLE ================= */
 .table-container {
-    margin-left: 20px; /* align with form */
+    margin-left: 20px;
     margin-top: 15px;
     padding: 20px 20px;
     background-color: #fff;
@@ -118,18 +115,23 @@
 }
 
 /* Buttons inside table */
-.edit-btn, .cancel-btn {
-    padding: 5px 10px;
-    border-radius: 6px;
+.table-container td .edit-btn,
+.table-container td .cancel-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
     font-size: 13px;
     font-weight: 600;
-    color: #fff;
     text-decoration: none;
     margin-right: 5px;
+    transition: all 0.2s ease;
+    text-align: center;
+    min-width: 60px;
 }
 
 .edit-btn {
     background-color: #1f3f4b;
+    color: #fff;
 }
 
 .edit-btn:hover {
@@ -138,6 +140,7 @@
 
 .cancel-btn {
     background-color: #dc3545;
+    color: #fff;
 }
 
 .cancel-btn:hover {

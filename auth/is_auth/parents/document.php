@@ -1,153 +1,147 @@
 <?php
 session_start();
-
-if(!isset($_SESSION['id']) || $_SESSION['role']!=='parent'){
+if(!isset($_SESSION['id'])){
     header("Location: /Babysafe/auth/login.php");
     exit;
+
 }
-
-
-$id = $_SESSION['id'];
-$page='Verification';
-require('../../../includes/parent_panel.php');
 
 $errors = [];
 
-if($_SERVER['REQUEST_METHOD']=='POST'){
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+
     $doc = $_POST['doc'] ?? '';
-    if($doc=='') $errors['doc']="Choose document";
 
-    if(($doc=='citizenship'||$doc=='license')){
-        if($_FILES['front']['name']=='') $errors['front']="Front required";
-        if($_FILES['back']['name']=='') $errors['back']="Back required";
+    if ($doc == '') {
+        $errors['doc'] = "Choose a document";
     }
-    if($doc=='passport'){
-        if($_FILES['passport']['name']=='') $errors['passport']="Passport required";
-    }
-    if($_FILES['photo']['name']=='') $errors['photo']="Photo required";
 
-    if(empty($errors)){
-        // Handle file uploads
-        $front=$back=$passport=null;
-        if($doc=='citizenship'||$doc=='license'){
-            $front='upload/front_'.$_FILES['front']['name'];
-            $back='upload/back_'.$_FILES['back']['name'];
-            move_uploaded_file($_FILES['front']['tmp_name'],$front);
-            move_uploaded_file($_FILES['back']['tmp_name'],$back);
+    if ($doc == 'citizenship' || $doc == 'license') {
+        if ($_FILES['front']['name'] == '') {
+            $errors['front'] = "Front file required";
         }
-        if($doc=='passport'){
-            $passport='upload/passport_'.$_FILES['passport']['name'];
-            move_uploaded_file($_FILES['passport']['tmp_name'],$passport);
-        }
-        $photo='upload/photo_'.$_FILES['photo']['name'];
-        move_uploaded_file($_FILES['photo']['tmp_name'],$photo);
-
-        // Fetch session data
-        $personal = $_SESSION['personal'];
-        $address  = $_SESSION['address'];
-
-        // Escape strings for mysqli
-        $name = mysqli_real_escape_string($conn,$personal['name']);
-        $dob = mysqli_real_escape_string($conn,$personal['dob']);
-        $age = mysqli_real_escape_string($conn,$personal['age']);
-        $occupation = mysqli_real_escape_string($conn,$personal['occupation']);
-        $spouse = mysqli_real_escape_string($conn,$personal['spouse']);
-        $gender = mysqli_real_escape_string($conn,$personal['gender']);
-
-        $p_province = mysqli_real_escape_string($conn,$address['p_province']);
-        $p_district = mysqli_real_escape_string($conn,$address['p_district']);
-        $p_city = mysqli_real_escape_string($conn,$address['p_city']);
-        $p_address = mysqli_real_escape_string($conn,$address['p_address']);
-
-        $t_province = mysqli_real_escape_string($conn,$address['t_province']);
-        $t_district = mysqli_real_escape_string($conn,$address['t_district']);
-        $t_city = mysqli_real_escape_string($conn,$address['t_city']);
-        $t_address = mysqli_real_escape_string($conn,$address['t_address']);
-
-        $doc_type = mysqli_real_escape_string($conn,$doc);
-        $front = mysqli_real_escape_string($conn,$front);
-        $back = mysqli_real_escape_string($conn,$back);
-        $passport = mysqli_real_escape_string($conn,$passport);
-        $photo = mysqli_real_escape_string($conn,$photo);
-        $status = 'pending';
-
-        // Insert into database
-        $sql = "INSERT INTO parents
-        (name,dob,age,occupation,spouse,gender,
-        p_province,p_district,p_city,p_address,
-        t_province,t_district,t_city,t_address,
-        doc_type,front,back,passport,photo,status)
-        VALUES
-        ('$name','$dob','$age','$occupation','$spouse','$gender',
-        '$p_province','$p_district','$p_city','$p_address',
-        '$t_province','$t_district','$t_city','$t_address',
-        '$doc_type','$front','$back','$passport','$photo','$status')";
-
-        if(mysqli_query($conn,$sql)){
-            unset($_SESSION['personal'],$_SESSION['address']);
-            echo "Verification submitted. Waiting for admin approval.";
-        }else{
-            echo "Error: ".mysqli_error($conn);
+        if ($_FILES['back']['name'] == '') {
+            $errors['back'] = "Back file required";
         }
     }
+
+    if ($doc == 'passport') {
+        if ($_FILES['passport']['name'] == '') {
+            $errors['passport'] = "Passport file required";
+        }
+    }
+
+    if ($_FILES['photo']['name'] == '') {
+        $errors['photo'] = "Photo required";
+    }
+
+    if (empty($errors)) {
+
+        if ($doc == 'citizenship' || $doc == 'license') {
+            move_uploaded_file($_FILES['front']['tmp_name'], "upload/front_".$_FILES['front']['name']);
+            move_uploaded_file($_FILES['back']['tmp_name'], "upload/back_".$_FILES['back']['name']);
+        }
+
+        if ($doc == 'passport') {
+            move_uploaded_file($_FILES['passport']['tmp_name'], "upload/passport_".$_FILES['passport']['name']);
+        }
+
+        move_uploaded_file($_FILES['photo']['tmp_name'], "upload/photo_".$_FILES['photo']['name']);
+    }
+
+    if(
+    !isset($_SESSION['parents']) ||
+    !isset($_SESSION['address']) ||
+    !isset($_SESSION['documents'])
+    ){
+        header("Location: personal.php");
+        exit;
+    }
+
+    $p = $_SESSION['parents'];
+    $a = $_SESSION['address'];
+    $d = $_SESSION['documents'];
+print_r($_SESSION['parents']);
+return 0;
+    $sql = "INSERT INTO parents
+    (name,dob,qualification,experiences,spouse,age,phone,gender,
+    province,district,city,ward,tole,
+    doc_type,photo,front_doc,back_doc)
+    VALUES (
+    '{$p['name']}','{$p['dob']}','{$p['qualification']}','{$p['experiences']}','{$p['spouse']}',
+    '{$p['age']}','{$p['phone']}','{$p['gender']}',
+    '{$a['province']}','{$a['district']}','{$a['city']}','{$a['ward']}','{$a['tole']}',
+    '{$d['type']}','{$d['photo']}','{$d['front']}','{$d['back']}'
+    )";
+
+    mysqli_query($conn, $sql);
+
+    /* CLEAR SESSION */
+    unset($_SESSION['parents'], $_SESSION['address'], $_SESSION['documents']);
+
+    echo "Verification completed successfully";
+
 }
 ?>
 
-<h2 class="doc-title">Upload Document</h2>
-
-<form class="doc-form" action="" method="post" enctype="multipart/form-data">
-
-    <div class="doc-input-field">
-        <label>Select Document Type *</label>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Information verification</title>
+</head>
+<body>
+    <h2>Upload Document</h2>
+    <form action="" method="post" enctype="multipart/form-data">
+        <label>Select Document Type *</label><br>
         <select name="doc_type" onchange="showFields(this.value)">
             <option value="">-- Select --</option>
             <option value="citizenship">Citizenship</option>
             <option value="driving license">Driving License</option>
             <option value="passport">Passport</option>
-        </select>
-        <div class="doc-error"><?= $errors['doc'] ?? '' ?></div>
-    </div>
+        </select><br>
 
-    <div class="doc-front-back">
-        <div class="doc-input-field">
-            <label>Front *</label>
-            <input type="file" name="front">
-            <div class="doc-error"><?= $errors['front'] ?? '' ?></div>
-        </div>
-        <div class="doc-input-field">
-            <label>Back *</label>
+        <div id="fb" style="display:none;">
+            <label>Front *</label><br>
+            <input type="file" name="front"><br>
+            
+
+            <label>Back *</label><br>
             <input type="file" name="back">
-            <div class="doc-error"><?= $errors['back'] ?? '' ?></div>
+   
         </div>
-    </div>
 
-    <div class="doc-passport">
-        <div class="doc-input-field">
-            <label>Passport *</label>
+        <div id="pass" style="display:none;">
+            <label>Passport *</label><br>
             <input type="file" name="passport">
-            <div class="doc-error"><?= $errors['passport'] ?? '' ?></div>
+            <div class="error"><?= $errors['passport'] ?? '' ?></div>
         </div>
-    </div>
 
-    <div class="doc-input-field">
-        <label>Upload Profile Photo *</label>
+        <label>Upload Profile Photo *</label><br>
         <input type="file" name="photo">
-        <div class="doc-error"><?= $errors['photo'] ?? '' ?></div>
-    </div>
 
-    <div>
-        <button type="button" class="doc-btn doc-back-btn" onclick="history.back()">Back</button>
-        <button type="submit" class="doc-btn">Submit</button>
-    </div>
+        <!-- Back button -->
+         <div>
+            <button type="button" onclick="history.back()">Back</button>
+        </div>
 
-</form>
+        <!-- Next button --> 
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+        
+     </form> 
 
-<script>
-function showFields(value){
-    document.querySelector('.doc-front-back').style.display = (value === 'citizenship' || value === 'driving license') ? 'flex' : 'none';
-    document.querySelector('.doc-passport').style.display = (value === 'passport') ? 'flex' : 'none';
-}
-</script>
+     <script>
+        function showFields(value) {
+            document.getElementById('fb').style.display =
+                (value === 'citizenship' || value === 'license') ? 'block' : 'none';
 
-</body>
+            document.getElementById('pass').style.display =
+                (value === 'passport') ? 'block' : 'none';
+        }
+</script>      
+    </body>
 </html>

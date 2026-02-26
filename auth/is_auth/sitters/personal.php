@@ -75,6 +75,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 'age' => $age,
                 'phone' => $phone,
                 'gender' => $gender
+                
             ];
             header("Location: address.php");
             exit;

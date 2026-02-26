@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $p = $_SESSION['parents'];
     $a = $_SESSION['address'];
     $d = $_SESSION['documents'];
-
+print_r($_SESSION['parents']);
     $sql = "INSERT INTO parents
     (name,dob,qualification,experiences,spouse,age,phone,gender,
     province,district,city,ward,tole,
